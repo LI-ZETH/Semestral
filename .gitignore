@@ -20,3 +20,10 @@ Thumbs.db
 # Archivos temporales
 *.tmp
 *.log
+
+# Configuración criptográfica privada
+/config/crypto.php
+
+# Llaves criptográficas
+/storage/keys/*
+!/storage/keys/.gitkeep
