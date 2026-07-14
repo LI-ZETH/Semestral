@@ -3,6 +3,7 @@
 class Usuario
 {
     private $idUsuario;
+    private $cedula;
     private $nombre;
     private $apellido;
     private $usuario;
@@ -16,6 +17,7 @@ class Usuario
 
     public function __construct(
         $idUsuario = null,
+        $cedula = "",
         $nombre = "",
         $apellido = "",
         $usuario = "",
@@ -26,8 +28,9 @@ class Usuario
         $intentosFallidos = 0,
         $bloqueado = 0,
         $fechaRegistro = null
-    ) {
+    ){
         $this->idUsuario = $idUsuario;
+        $this->cedula = $cedula;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->usuario = $usuario;
@@ -42,115 +45,101 @@ class Usuario
 
     // Getters
 
-    public function getIdUsuario()
-    {
+    public function getIdUsuario(){
         return $this->idUsuario;
     }
 
-    public function getNombre()
-    {
+    public function getCedula(){
+        return $this->cedula;
+    }
+
+    public function getNombre(){
         return $this->nombre;
     }
 
-    public function getApellido()
-    {
+    public function getApellido(){
         return $this->apellido;
     }
 
-    public function getUsuario()
-    {
+    public function getUsuario(){
         return $this->usuario;
     }
 
-    public function getCorreo()
-    {
+    public function getCorreo(){
         return $this->correo;
     }
 
-    public function getPasswordHash()
-    {
+    public function getPasswordHash(){
         return $this->passwordHash;
     }
 
-    public function getIdRol()
-    {
+    public function getIdRol(){
         return $this->idRol;
     }
 
-    public function getActivo()
-    {
+    public function getActivo(){
         return $this->activo;
     }
 
-    public function getIntentosFallidos()
-    {
+    public function getIntentosFallidos(){
         return $this->intentosFallidos;
     }
 
-    public function getBloqueado()
-    {
+    public function getBloqueado(){
         return $this->bloqueado;
     }
 
-    public function getFechaRegistro()
-    {
+    public function getFechaRegistro(){
         return $this->fechaRegistro;
     }
 
     // Setters
 
-    public function setIdUsuario($idUsuario)
-    {
+    public function setIdUsuario($idUsuario){
         $this->idUsuario = $idUsuario;
     }
 
-    public function setNombre($nombre)
-    {
+    public function setCedula($cedula){
+        $this->cedula = $cedula;
+    }
+
+    public function setNombre($nombre){
         $this->nombre = $nombre;
     }
 
-    public function setApellido($apellido)
-    {
+    public function setApellido($apellido){
         $this->apellido = $apellido;
     }
 
-    public function setUsuario($usuario)
-    {
+    public function setUsuario($usuario){
         $this->usuario = $usuario;
     }
 
-    public function setCorreo($correo)
-    {
+    public function setCorreo($correo){
         $this->correo = $correo;
     }
 
-    public function setPasswordHash($passwordHash)
-    {
+    public function setPasswordHash($passwordHash){
         $this->passwordHash = $passwordHash;
     }
 
-    public function setIdRol($idRol)
-    {
+    public function setIdRol($idRol){
         $this->idRol = $idRol;
     }
 
-    public function setActivo($activo)
-    {
+    public function setActivo($activo){
         $this->activo = $activo;
     }
 
-    public function setIntentosFallidos($intentosFallidos)
-    {
+    public function setIntentosFallidos($intentosFallidos){
         $this->intentosFallidos = $intentosFallidos;
     }
 
-    public function setBloqueado($bloqueado)
-    {
+    public function setBloqueado($bloqueado){
         $this->bloqueado = $bloqueado;
     }
 
-    public function setFechaRegistro($fechaRegistro)
-    {
+    public function setFechaRegistro($fechaRegistro){
         $this->fechaRegistro = $fechaRegistro;
     }
 }
