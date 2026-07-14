@@ -11,6 +11,17 @@ use Throwable;
 
 final class CategoriaService
 {
+    private const IMAGE_FITS = [
+        'cover',
+        'contain',
+    ];
+
+    private const IMAGE_SIZES = [
+        'compacta',
+        'mediana',
+        'amplia',
+    ];
+
     public function __construct(
         private readonly CategoriaRepositoryInterface $repository,
         private readonly ImageUploadService $imageService
@@ -25,9 +36,7 @@ final class CategoriaService
     public function findById(
         int $categoryId
     ): ?array {
-        return $this->repository->findById(
-            $categoryId
-        );
+        return $this->repository->findById($categoryId);
     }
 
     public function create(
@@ -46,46 +55,28 @@ final class CategoriaService
                 'Ya existe una categoría con ese nombre.';
         }
 
-        $imageFile = $files['imagen'] ?? null;
-
-        if (
-            !is_array($imageFile)
-            || (int) ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE)
-                === UPLOAD_ERR_NO_FILE
-        ) {
-            $errors['imagen'] =
-                'Selecciona una imagen para la categoría.';
-        }
-
         if ($errors !== []) {
             throw new ValidationException($errors);
         }
 
         $imagePath = null;
+        $imageFile = $files['imagen'] ?? null;
 
         try {
-            $imagePath = $this->imageService->store(
-                $imageFile,
-                'categorias'
-            );
+            if ($this->hasUploadedImage($imageFile)) {
+                $imagePath = $this->storeImage($imageFile);
+            }
 
             return $this->repository->create([
-                'nombreCategoria' =>
-                    $data['nombreCategoria'],
-
-                'descripcion' =>
-                    $data['descripcion'],
-
-                'imagen' =>
-                    $imagePath,
+                'nombreCategoria' => $data['nombreCategoria'],
+                'descripcion' => $data['descripcion'],
+                'imagen' => $imagePath,
+                'imagenAjuste' => $data['imagenAjuste'],
+                'imagenTamano' => $data['imagenTamano'],
             ]);
-        } catch (ValidationException $exception) {
-            throw $exception;
         } catch (Throwable $exception) {
             if ($imagePath !== null) {
-                $this->imageService->delete(
-                    $imagePath
-                );
+                $this->imageService->delete($imagePath);
             }
 
             throw $exception;
@@ -97,9 +88,7 @@ final class CategoriaService
         array $input,
         array $files
     ): void {
-        $category = $this->repository->findById(
-            $categoryId
-        );
+        $category = $this->repository->findById($categoryId);
 
         if ($category === null) {
             throw new ValidationException([
@@ -121,59 +110,56 @@ final class CategoriaService
                 'Ya existe una categoría con ese nombre.';
         }
 
+        $imageFile = $files['imagen'] ?? null;
+        $hasNewImage = $this->hasUploadedImage($imageFile);
+
+        if ($data['eliminarImagen'] && $hasNewImage) {
+            $errors['imagen'] =
+                'Elige entre reemplazar la imagen o eliminarla, no ambas opciones.';
+        }
+
         if ($errors !== []) {
             throw new ValidationException($errors);
         }
 
-        $newImagePath = null;
-        $imagePath = $category['imagen'];
+        $oldImagePath = !empty($category['imagen'])
+            ? (string) $category['imagen']
+            : null;
 
-        $imageFile = $files['imagen'] ?? null;
+        $newImagePath = null;
+        $finalImagePath = $oldImagePath;
 
         try {
-            if (
-                is_array($imageFile)
-                && (int) (
-                    $imageFile['error']
-                    ?? UPLOAD_ERR_NO_FILE
-                ) !== UPLOAD_ERR_NO_FILE
-            ) {
-                $newImagePath =
-                    $this->imageService->store(
-                        $imageFile,
-                        'categorias'
-                    );
-
-                $imagePath = $newImagePath;
+            if ($hasNewImage) {
+                $newImagePath = $this->storeImage($imageFile);
+                $finalImagePath = $newImagePath;
+            } elseif ($data['eliminarImagen']) {
+                $finalImagePath = null;
             }
 
             $this->repository->update(
                 $categoryId,
                 [
-                    'nombreCategoria' =>
-                        $data['nombreCategoria'],
-
-                    'descripcion' =>
-                        $data['descripcion'],
-
-                    'imagen' =>
-                        $imagePath,
+                    'nombreCategoria' => $data['nombreCategoria'],
+                    'descripcion' => $data['descripcion'],
+                    'imagen' => $finalImagePath,
+                    'imagenAjuste' => $data['imagenAjuste'],
+                    'imagenTamano' => $data['imagenTamano'],
                 ]
             );
 
+            $imageWasReplaced = $newImagePath !== null;
+            $imageWasRemoved = $data['eliminarImagen'];
+
             if (
-                $newImagePath !== null
-                && !empty($category['imagen'])
+                $oldImagePath !== null
+                && ($imageWasReplaced || $imageWasRemoved)
             ) {
-                $this->imageService->delete(
-                    (string) $category['imagen']
-                );
+                $this->imageService->delete($oldImagePath);
             }
         } catch (Throwable $exception) {
             if ($newImagePath !== null) {
-                $this->imageService->delete(
-                    $newImagePath
-                );
+                $this->imageService->delete($newImagePath);
             }
 
             throw $exception;
@@ -184,9 +170,7 @@ final class CategoriaService
         int $categoryId,
         bool $active
     ): void {
-        $category = $this->repository->findById(
-            $categoryId
-        );
+        $category = $this->repository->findById($categoryId);
 
         if ($category === null) {
             throw new ValidationException([
@@ -205,18 +189,19 @@ final class CategoriaService
     {
         return [
             'nombreCategoria' => trim(
-                (string) (
-                    $input['nombreCategoria']
-                    ?? ''
-                )
+                (string) ($input['nombreCategoria'] ?? '')
             ),
-
             'descripcion' => trim(
-                (string) (
-                    $input['descripcion']
-                    ?? ''
-                )
+                (string) ($input['descripcion'] ?? '')
             ),
+            'imagenAjuste' => trim(
+                (string) ($input['imagenAjuste'] ?? 'cover')
+            ),
+            'imagenTamano' => trim(
+                (string) ($input['imagenTamano'] ?? 'mediana')
+            ),
+            'eliminarImagen' => isset($input['eliminarImagen'])
+                && (string) $input['eliminarImagen'] === '1',
         ];
     }
 
@@ -225,12 +210,8 @@ final class CategoriaService
         $errors = [];
 
         if (
-            mb_strlen(
-                $data['nombreCategoria']
-            ) < 3
-            || mb_strlen(
-                $data['nombreCategoria']
-            ) > 80
+            mb_strlen($data['nombreCategoria']) < 3
+            || mb_strlen($data['nombreCategoria']) > 80
         ) {
             $errors['nombreCategoria'] =
                 'El nombre debe contener entre 3 y 80 caracteres.';
@@ -238,14 +219,51 @@ final class CategoriaService
 
         if (
             $data['descripcion'] !== ''
-            && mb_strlen(
-                $data['descripcion']
-            ) > 255
+            && mb_strlen($data['descripcion']) > 255
         ) {
             $errors['descripcion'] =
                 'La descripción no puede superar 255 caracteres.';
         }
 
+        if (!in_array(
+            $data['imagenAjuste'],
+            self::IMAGE_FITS,
+            true
+        )) {
+            $errors['imagenAjuste'] =
+                'Selecciona un ajuste de imagen válido.';
+        }
+
+        if (!in_array(
+            $data['imagenTamano'],
+            self::IMAGE_SIZES,
+            true
+        )) {
+            $errors['imagenTamano'] =
+                'Selecciona un tamaño de imagen válido.';
+        }
+
         return $errors;
+    }
+
+    private function hasUploadedImage(mixed $file): bool
+    {
+        return is_array($file)
+            && (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE)
+                !== UPLOAD_ERR_NO_FILE;
+    }
+
+    private function storeImage(array $file): string
+    {
+        try {
+            return $this->imageService->store(
+                $file,
+                'categorias'
+            );
+        } catch (RuntimeException $exception) {
+            throw new ValidationException([
+                'imagen' => $exception->getMessage(),
+            ]);
+        }
     }
 }

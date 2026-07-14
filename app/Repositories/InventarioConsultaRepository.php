@@ -28,6 +28,8 @@ final class InventarioConsultaRepository implements
                 c.nombreCategoria,
                 c.descripcion,
                 c.imagen,
+                c.imagenAjuste,
+                c.imagenTamano,
                 COALESCE(v.totalActivos, 0)
                     AS totalActivos,
                 COALESCE(v.enInventario, 0)
@@ -60,7 +62,9 @@ final class InventarioConsultaRepository implements
                 idCategoria,
                 nombreCategoria,
                 descripcion,
-                imagen
+                imagen,
+                imagenAjuste,
+                imagenTamano
             FROM Categoria
             WHERE idCategoria = :idCategoria
               AND activo = 1

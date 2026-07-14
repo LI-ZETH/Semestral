@@ -201,7 +201,7 @@ final class AuthController extends Controller
 
             Session::flash(
                 'success',
-                'Bienvenido a Tránsito CMDB.'
+                'Bienvenido a Track iT.'
             );
 
             header(

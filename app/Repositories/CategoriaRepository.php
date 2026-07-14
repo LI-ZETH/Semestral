@@ -28,6 +28,8 @@ final class CategoriaRepository implements
                 c.nombreCategoria,
                 c.descripcion,
                 c.imagen,
+                c.imagenAjuste,
+                c.imagenTamano,
                 c.activo,
                 c.fechaRegistro,
                 c.fechaActualizacion,
@@ -69,6 +71,8 @@ final class CategoriaRepository implements
                 c.nombreCategoria,
                 c.descripcion,
                 c.imagen,
+                c.imagenAjuste,
+                c.imagenTamano,
                 c.activo,
                 c.fechaRegistro,
                 c.fechaActualizacion
@@ -94,6 +98,8 @@ final class CategoriaRepository implements
                 nombreCategoria,
                 descripcion,
                 imagen,
+                imagenAjuste,
+                imagenTamano,
                 activo,
                 fechaRegistro,
                 fechaActualizacion
@@ -138,10 +144,7 @@ final class CategoriaRepository implements
 
         $sql .= ' LIMIT 1 ';
 
-        $statement = $this->connection->prepare(
-            $sql
-        );
-
+        $statement = $this->connection->prepare($sql);
         $statement->execute($parameters);
 
         return $statement->fetchColumn() !== false;
@@ -155,29 +158,29 @@ final class CategoriaRepository implements
                 nombreCategoria,
                 descripcion,
                 imagen,
+                imagenAjuste,
+                imagenTamano,
                 activo
             ) VALUES (
                 :nombreCategoria,
                 :descripcion,
                 :imagen,
+                :imagenAjuste,
+                :imagenTamano,
                 1
             )
             '
         );
 
         $statement->execute([
-            'nombreCategoria' =>
-                $data['nombreCategoria'],
-
-            'descripcion' =>
-                $data['descripcion'],
-
-            'imagen' =>
-                $data['imagen'],
+            'nombreCategoria' => $data['nombreCategoria'],
+            'descripcion' => $data['descripcion'],
+            'imagen' => $data['imagen'],
+            'imagenAjuste' => $data['imagenAjuste'],
+            'imagenTamano' => $data['imagenTamano'],
         ]);
 
-        return (int) $this->connection
-            ->lastInsertId();
+        return (int) $this->connection->lastInsertId();
     }
 
     public function update(
@@ -190,23 +193,20 @@ final class CategoriaRepository implements
             SET
                 nombreCategoria = :nombreCategoria,
                 descripcion = :descripcion,
-                imagen = :imagen
+                imagen = :imagen,
+                imagenAjuste = :imagenAjuste,
+                imagenTamano = :imagenTamano
             WHERE idCategoria = :idCategoria
             '
         );
 
         $statement->execute([
-            'nombreCategoria' =>
-                $data['nombreCategoria'],
-
-            'descripcion' =>
-                $data['descripcion'],
-
-            'imagen' =>
-                $data['imagen'],
-
-            'idCategoria' =>
-                $categoryId,
+            'nombreCategoria' => $data['nombreCategoria'],
+            'descripcion' => $data['descripcion'],
+            'imagen' => $data['imagen'],
+            'imagenAjuste' => $data['imagenAjuste'],
+            'imagenTamano' => $data['imagenTamano'],
+            'idCategoria' => $categoryId,
         ]);
     }
 

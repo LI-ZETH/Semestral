@@ -11,28 +11,52 @@
             productos y copias individuales.
         </p>
     </div>
-    <?php if (
-        \App\Core\Auth::can(
-            \App\Core\Permissions::INVENTARIO_GESTIONAR
-        )
-    ): ?>
+
+    <div class="management-header__actions">
         <a
-            class="button"
-            href="<?= e(
-                base_url(
-                    'inventario/categorias'
-                )
-            ) ?>"
+            class="button button--secondary"
+            href="<?= e(base_url('panel')) ?>"
         >
-            Administrar categorías
+            Volver al panel
         </a>
-    <?php endif; ?>
+
+        <?php if (
+            \App\Core\Auth::can(
+                \App\Core\Permissions::INVENTARIO_GESTIONAR
+            )
+        ): ?>
+            <a
+                class="button"
+                href="<?= e(base_url('inventario/categorias')) ?>"
+            >
+                Administrar categorías
+            </a>
+        <?php endif; ?>
+    </div>
 </section>
 
 <div class="inventory-category-grid">
     <?php foreach ($categories as $category): ?>
+        <?php
+        $imageSize = in_array(
+            $category['imagenTamano'] ?? 'mediana',
+            ['compacta', 'mediana', 'amplia'],
+            true
+        )
+            ? $category['imagenTamano']
+            : 'mediana';
+
+        $imageFit = in_array(
+            $category['imagenAjuste'] ?? 'cover',
+            ['cover', 'contain'],
+            true
+        )
+            ? $category['imagenAjuste']
+            : 'cover';
+        ?>
+
         <a
-            class="inventory-category-card"
+            class="inventory-category-card inventory-category-card--<?= e($imageSize) ?>"
             href="<?= e(
                 base_url(
                     'inventario/categoria?id='
@@ -43,12 +67,9 @@
             <div class="inventory-category-card__media">
                 <?php if (!empty($category['imagen'])): ?>
                     <img
-                        src="<?= e(
-                            asset_url($category['imagen'])
-                        ) ?>"
-                        alt="<?= e(
-                            $category['nombreCategoria']
-                        ) ?>"
+                        class="inventory-image--<?= e($imageFit) ?>"
+                        src="<?= e(asset_url($category['imagen'])) ?>"
+                        alt="<?= e($category['nombreCategoria']) ?>"
                     >
                 <?php else: ?>
                     <span>
@@ -64,9 +85,7 @@
             </div>
 
             <div class="inventory-category-card__content">
-                <h2>
-                    <?= e($category['nombreCategoria']) ?>
-                </h2>
+                <h2><?= e($category['nombreCategoria']) ?></h2>
 
                 <p>
                     <?= e(
@@ -77,23 +96,17 @@
 
                 <div class="inventory-category-card__stats">
                     <span>
-                        <strong>
-                            <?= e($category['totalActivos']) ?>
-                        </strong>
+                        <strong><?= e($category['totalActivos']) ?></strong>
                         Total
                     </span>
 
                     <span>
-                        <strong>
-                            <?= e($category['enInventario']) ?>
-                        </strong>
+                        <strong><?= e($category['enInventario']) ?></strong>
                         Disponibles
                     </span>
 
                     <span>
-                        <strong>
-                            <?= e($category['asignados']) ?>
-                        </strong>
+                        <strong><?= e($category['asignados']) ?></strong>
                         Asignados
                     </span>
                 </div>

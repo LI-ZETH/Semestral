@@ -185,6 +185,11 @@ final class UsuarioRepository implements
     public function findForAuthentication(
         string $identifier
     ): ?array {
+        $normalizedIdentifier = mb_strtolower(
+            trim($identifier),
+            'UTF-8'
+        );
+
         $statement = $this->connection->prepare(
             '
             SELECT
@@ -201,19 +206,22 @@ final class UsuarioRepository implements
                 u.fechaBloqueo,
                 u.ultimoAcceso,
                 r.idRol,
-                r.nombreRol
+                r.nombreRol,
+                r.activo AS rolActivo
             FROM Usuario u
             INNER JOIN Rol r
                 ON r.idRol = u.idRol
-            WHERE u.usuario = :identifierUser
-               OR u.correo = :identifierEmail
+            WHERE LOWER(u.usuario) = :identifierUser
+               OR LOWER(u.correo) = :identifierEmail
+               OR u.cedula = :identifierCedula
             LIMIT 1
             '
         );
 
         $statement->execute([
-            'identifierUser' => $identifier,
-            'identifierEmail' => $identifier,
+            'identifierUser' => $normalizedIdentifier,
+            'identifierEmail' => $normalizedIdentifier,
+            'identifierCedula' => trim($identifier),
         ]);
 
         $user = $statement->fetch();

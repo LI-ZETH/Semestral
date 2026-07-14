@@ -24,9 +24,9 @@ final class AuthenticationService
         string $ipAddress,
         ?string $userAgent
     ): array {
-        $identifier = strtolower(trim(
+        $identifier = trim(
             (string) ($input['identifier'] ?? '')
-        ));
+        );
 
         $password = (string) (
             $input['password'] ?? ''
@@ -45,10 +45,6 @@ final class AuthenticationService
             ->findForAuthentication($identifier);
 
         if ($user === null) {
-            /*
-             * Ejecuta una verificación real para reducir diferencias
-             * de tiempo entre usuarios existentes e inexistentes.
-             */
             $this->passwordHasher->verificar(
                 $password,
                 self::DUMMY_PASSWORD_HASH
@@ -59,14 +55,14 @@ final class AuthenticationService
                 $identifier,
                 $ipAddress,
                 $userAgent,
-                'El usuario o correo no existe.',
+                'No existe una cuenta asociada al identificador ingresado.',
                 false
             );
 
             throw new ValidationException([
                 'general' =>
-                    'No fue posible iniciar sesión. '
-                    . 'Verifica tus credenciales.',
+                'No existe una cuenta asociada a los datos ingresados. '
+                . 'Contacte al administrador del sistema.',
             ]);
         }
 
@@ -84,8 +80,25 @@ final class AuthenticationService
 
             throw new ValidationException([
                 'general' =>
-                    'No fue posible iniciar sesión. '
-                    . 'La cuenta no está disponible.',
+                    'La cuenta está desactivada. '
+                    . 'Contacta a un administrador.',
+            ]);
+        }
+
+        if (!(bool) ($user['rolActivo'] ?? false)) {
+            $this->userRepository->recordFailedLogin(
+                $userId,
+                $identifier,
+                $ipAddress,
+                $userAgent,
+                'El rol asignado está inactivo.',
+                false
+            );
+
+            throw new ValidationException([
+                'general' =>
+                    'El rol de esta cuenta no está disponible. '
+                    . 'Contacta a un administrador.',
             ]);
         }
 
@@ -180,12 +193,12 @@ final class AuthenticationService
 
         if ($identifier === '') {
             $errors['identifier'] =
-                'Introduce tu usuario o correo.';
+                'Introduce tu usuario, correo o cédula.';
         }
 
         if (mb_strlen($identifier) > 120) {
             $errors['identifier'] =
-                'El usuario o correo es demasiado extenso.';
+                'El identificador es demasiado extenso.';
         }
 
         if ($password === '') {

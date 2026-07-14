@@ -24,17 +24,10 @@ final class CategoriaController extends Controller
         $this->view(
             'inventario/categories/index',
             [
-                'title' =>
-                    'Administrar categorías',
-
-                'categories' =>
-                    $this->buildService()->listAll(),
-
-                'success' =>
-                    flash('success'),
-
-                'error' =>
-                    flash('error'),
+                'title' => 'Administrar categorías',
+                'categories' => $this->buildService()->listAll(),
+                'success' => flash('success'),
+                'error' => flash('error'),
             ]
         );
     }
@@ -48,14 +41,15 @@ final class CategoriaController extends Controller
         $this->view(
             'inventario/categories/create',
             [
-                'title' =>
-                    'Registrar categoría',
-
-                'errors' =>
-                    flash('errors', []),
-
-                'old' =>
-                    flash('old', []),
+                'title' => 'Registrar categoría',
+                'errors' => flash('errors', []),
+                'old' => flash(
+                    'old',
+                    [
+                        'imagenAjuste' => 'cover',
+                        'imagenTamano' => 'mediana',
+                    ]
+                ),
             ]
         );
     }
@@ -79,46 +73,10 @@ final class CategoriaController extends Controller
 
             $this->redirectToCategories();
         } catch (ValidationException $exception) {
-            Session::flash(
-                'errors',
-                $exception->getErrors()
+            $this->redirectWithErrors(
+                $exception,
+                'inventario/categorias/crear'
             );
-
-            Session::flash(
-                'old',
-                $this->safeOldInput($_POST)
-            );
-
-            header(
-                'Location: '
-                . base_url(
-                    'inventario/categorias/crear'
-                )
-            );
-
-            exit;
-        } catch (\Throwable $exception) {
-            Session::flash(
-                'errors',
-                [
-                    'general' =>
-                        $exception->getMessage(),
-                ]
-            );
-
-            Session::flash(
-                'old',
-                $this->safeOldInput($_POST)
-            );
-
-            header(
-                'Location: '
-                . base_url(
-                    'inventario/categorias/crear'
-                )
-            );
-
-            exit;
         }
     }
 
@@ -129,13 +87,10 @@ final class CategoriaController extends Controller
         );
 
         $categoryId = $this->getQueryId();
-
-        $category = $this->buildService()
-            ->findById($categoryId);
+        $category = $this->buildService()->findById($categoryId);
 
         if ($category === null) {
             $this->renderNotFound();
-
             return;
         }
 
@@ -145,14 +100,8 @@ final class CategoriaController extends Controller
             'inventario/categories/edit',
             [
                 'title' => 'Editar categoría',
-
-                'category' => array_replace(
-                    $category,
-                    $old
-                ),
-
-                'errors' =>
-                    flash('errors', []),
+                'category' => array_replace($category, $old),
+                'errors' => flash('errors', []),
             ]
         );
     }
@@ -169,12 +118,8 @@ final class CategoriaController extends Controller
             FILTER_VALIDATE_INT
         );
 
-        if (
-            !is_int($categoryId)
-            || $categoryId <= 0
-        ) {
+        if (!is_int($categoryId) || $categoryId <= 0) {
             $this->renderNotFound();
-
             return;
         }
 
@@ -192,48 +137,10 @@ final class CategoriaController extends Controller
 
             $this->redirectToCategories();
         } catch (ValidationException $exception) {
-            Session::flash(
-                'errors',
-                $exception->getErrors()
+            $this->redirectWithErrors(
+                $exception,
+                'inventario/categorias/editar?id=' . $categoryId
             );
-
-            Session::flash(
-                'old',
-                $this->safeOldInput($_POST)
-            );
-
-            header(
-                'Location: '
-                . base_url(
-                    'inventario/categorias/editar?id='
-                    . $categoryId
-                )
-            );
-
-            exit;
-        } catch (\Throwable $exception) {
-            Session::flash(
-                'errors',
-                [
-                    'general' =>
-                        $exception->getMessage(),
-                ]
-            );
-
-            Session::flash(
-                'old',
-                $this->safeOldInput($_POST)
-            );
-
-            header(
-                'Location: '
-                . base_url(
-                    'inventario/categorias/editar?id='
-                    . $categoryId
-                )
-            );
-
-            exit;
         }
     }
 
@@ -259,11 +166,7 @@ final class CategoriaController extends Controller
             !is_int($categoryId)
             || $categoryId <= 0
             || !is_int($activeValue)
-            || !in_array(
-                $activeValue,
-                [0, 1],
-                true
-            )
+            || !in_array($activeValue, [0, 1], true)
         ) {
             Session::flash(
                 'error',
@@ -276,11 +179,10 @@ final class CategoriaController extends Controller
         try {
             $active = $activeValue === 1;
 
-            $this->buildService()
-                ->changeActiveState(
-                    $categoryId,
-                    $active
-                );
+            $this->buildService()->changeActiveState(
+                $categoryId,
+                $active
+            );
 
             Session::flash(
                 'success',
@@ -315,38 +217,52 @@ final class CategoriaController extends Controller
             FILTER_VALIDATE_INT
         );
 
-        return is_int($categoryId)
-            ? $categoryId
-            : 0;
+        return is_int($categoryId) ? $categoryId : 0;
     }
 
-    private function safeOldInput(
-        array $input
-    ): array {
+    private function safeOldInput(array $input): array
+    {
         return [
             'nombreCategoria' => trim(
-                (string) (
-                    $input['nombreCategoria']
-                    ?? ''
-                )
+                (string) ($input['nombreCategoria'] ?? '')
             ),
-
             'descripcion' => trim(
-                (string) (
-                    $input['descripcion']
-                    ?? ''
-                )
+                (string) ($input['descripcion'] ?? '')
             ),
+            'imagenAjuste' => trim(
+                (string) ($input['imagenAjuste'] ?? 'cover')
+            ),
+            'imagenTamano' => trim(
+                (string) ($input['imagenTamano'] ?? 'mediana')
+            ),
+            'eliminarImagen' => isset($input['eliminarImagen'])
+                ? '1'
+                : '0',
         ];
     }
 
-    private function redirectToCategories(): void
+    private function redirectWithErrors(
+        ValidationException $exception,
+        string $route
+    ): never {
+        Session::flash(
+            'errors',
+            $exception->getErrors()
+        );
+
+        Session::flash(
+            'old',
+            $this->safeOldInput($_POST)
+        );
+
+        header('Location: ' . base_url($route));
+        exit;
+    }
+
+    private function redirectToCategories(): never
     {
         header(
-            'Location: '
-            . base_url(
-                'inventario/categorias'
-            )
+            'Location: ' . base_url('inventario/categorias')
         );
 
         exit;
@@ -359,11 +275,8 @@ final class CategoriaController extends Controller
         $this->view(
             'errors/404',
             [
-                'title' =>
-                    'Categoría no encontrada',
-
-                'path' =>
-                    '/inventario/categorias',
+                'title' => 'Categoría no encontrada',
+                'path' => '/inventario/categorias',
             ]
         );
     }

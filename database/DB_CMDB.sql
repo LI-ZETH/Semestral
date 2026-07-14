@@ -190,6 +190,8 @@ CREATE TABLE Categoria (
     nombreCategoria VARCHAR(80) NOT NULL,
     descripcion VARCHAR(255) NULL,
     imagen VARCHAR(255) NULL,
+    imagenAjuste ENUM('cover', 'contain') NOT NULL DEFAULT 'cover',
+    imagenTamano ENUM('compacta', 'mediana', 'amplia') NOT NULL DEFAULT 'mediana',
     activo TINYINT(1) NOT NULL DEFAULT 1,
     fechaRegistro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaActualizacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP

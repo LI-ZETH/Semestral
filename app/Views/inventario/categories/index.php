@@ -15,6 +15,13 @@
     <div class="management-header__actions">
         <a
             class="button button--secondary"
+            href="<?= e(base_url('panel')) ?>"
+        >
+            Volver al panel
+        </a>
+
+        <a
+            class="button button--secondary"
             href="<?= e(base_url('inventario')) ?>"
         >
             Ver inventario

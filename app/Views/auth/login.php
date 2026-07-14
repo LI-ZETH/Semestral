@@ -47,7 +47,7 @@
 
             <div class="field">
                 <label for="identifier">
-                    Usuario o correo
+                    Usuario, correo o cédula
                 </label>
 
                 <input
