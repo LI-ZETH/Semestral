@@ -1,0 +1,22 @@
+# Configuración privada
+/config/database.php
+
+# Archivos subidos por usuarios
+/public/uploads/activos/*
+!/public/uploads/activos/.gitkeep
+
+# Registros del sistema
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# Configuración de editores
+/.idea/
+/.vscode/
+
+# Archivos del sistema operativo
+Thumbs.db
+.DS_Store
+
+# Archivos temporales
+*.tmp
+*.log
