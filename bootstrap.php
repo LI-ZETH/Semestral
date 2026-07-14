@@ -4,21 +4,50 @@ declare(strict_types=1);
 
 /*
 |--------------------------------------------------------------------------
-| Constantes principales
+| Ruta principal
 |--------------------------------------------------------------------------
 */
 
 define('BASE_PATH', __DIR__);
-define('APP_NAME', 'Tránsito CMDB');
 
 /*
 |--------------------------------------------------------------------------
-| Autocargador de clases
+| Configuración de la aplicación
 |--------------------------------------------------------------------------
-|
-| App\Core\Database se convierte en:
-| app/Core/Database.php
-|
+*/
+
+$appConfigPath = BASE_PATH
+    . DIRECTORY_SEPARATOR
+    . 'config'
+    . DIRECTORY_SEPARATOR
+    . 'app.php';
+
+if (!is_file($appConfigPath)) {
+    throw new RuntimeException(
+        'No existe el archivo config/app.php.'
+    );
+}
+
+$appConfig = require $appConfigPath;
+
+define(
+    'APP_NAME',
+    (string) ($appConfig['name'] ?? 'Tránsito CMDB')
+);
+
+define(
+    'APP_DEBUG',
+    (bool) ($appConfig['debug'] ?? false)
+);
+
+date_default_timezone_set(
+    (string) ($appConfig['timezone'] ?? 'America/Panama')
+);
+
+/*
+|--------------------------------------------------------------------------
+| Autocargador
+|--------------------------------------------------------------------------
 */
 
 spl_autoload_register(
@@ -69,8 +98,16 @@ $helpersPath = BASE_PATH
 
 if (!is_file($helpersPath)) {
     throw new RuntimeException(
-        'No se encontró app/Helpers/functions.php.'
+        'No existe app/Helpers/functions.php.'
     );
 }
 
 require_once $helpersPath;
+
+/*
+|--------------------------------------------------------------------------
+| Control global de errores
+|--------------------------------------------------------------------------
+*/
+
+App\Core\ErrorHandler::register();

@@ -24,3 +24,12 @@ $router->get(
         'index',
     ]
 );
+
+$router->get(
+    '/prueba-error',
+    static function (): void {
+        throw new RuntimeException(
+            'Error intencional para comprobar el manejador.'
+        );
+    }
+);
