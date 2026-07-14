@@ -2,78 +2,45 @@
 
 declare(strict_types=1);
 
+use App\Core\Router;
+
 require_once dirname(__DIR__) . '/bootstrap.php';
 
-use App\Core\Database;
+$router = new Router();
 
-try {
-    $connection = Database::getConnection();
+$routesPath = BASE_PATH
+    . DIRECTORY_SEPARATOR
+    . 'routes'
+    . DIRECTORY_SEPARATOR
+    . 'web.php';
 
-    $databaseName = $connection
-        ->query('SELECT DATABASE()')
-        ->fetchColumn();
-
-    $tableCount = $connection
-        ->query(
-            "
-            SELECT COUNT(*)
-            FROM information_schema.tables
-            WHERE table_schema = DATABASE()
-            "
-        )
-        ->fetchColumn();
-} catch (Throwable $exception) {
-    http_response_code(500);
-
-    $databaseName = null;
-    $tableCount = 0;
+if (!is_file($routesPath)) {
+    throw new RuntimeException(
+        'No se encontró el archivo routes/web.php.'
+    );
 }
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+require $routesPath;
 
-    <title>Tránsito CMDB</title>
-</head>
+/*
+|--------------------------------------------------------------------------
+| Despacho de la solicitud
+|--------------------------------------------------------------------------
+|
+| El parámetro route sirve también como alternativa durante las pruebas:
+| public/index.php?route=/inicio
+|
+*/
 
-<body>
-    <main>
-        <h1>Tránsito CMDB</h1>
+$requestUri = isset($_GET['route'])
+    ? (string) $_GET['route']
+    : (string) ($_SERVER['REQUEST_URI'] ?? '/');
 
-        <?php if ($databaseName !== null): ?>
-            <h2>Conexión establecida correctamente</h2>
+$requestMethod = (string) (
+    $_SERVER['REQUEST_METHOD'] ?? 'GET'
+);
 
-            <p>
-                Base de datos:
-                <strong>
-                    <?= htmlspecialchars(
-                        (string) $databaseName,
-                        ENT_QUOTES,
-                        'UTF-8'
-                    ) ?>
-                </strong>
-            </p>
-
-            <p>
-                Tablas y vistas encontradas:
-                <strong>
-                    <?= (int) $tableCount ?>
-                </strong>
-            </p>
-        <?php else: ?>
-            <h2>No fue posible conectar con la base de datos</h2>
-
-            <p>
-                Revisa XAMPP y el archivo
-                <code>config/database.php</code>.
-            </p>
-        <?php endif; ?>
-    </main>
-</body>
-</html>
+$router->dispatch(
+    $requestMethod,
+    $requestUri
+);

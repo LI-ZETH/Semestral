@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 /*
 |--------------------------------------------------------------------------
-| Ruta principal del proyecto
+| Constantes principales
 |--------------------------------------------------------------------------
 */
 
 define('BASE_PATH', __DIR__);
+define('APP_NAME', 'Tránsito CMDB');
 
 /*
 |--------------------------------------------------------------------------
 | Autocargador de clases
 |--------------------------------------------------------------------------
 |
-| Convierte una clase como:
-| App\Core\Database
-|
-| En el archivo:
+| App\Core\Database se convierte en:
 | app/Core/Database.php
 |
 */
@@ -54,3 +52,25 @@ spl_autoload_register(
         }
     }
 );
+
+/*
+|--------------------------------------------------------------------------
+| Funciones auxiliares
+|--------------------------------------------------------------------------
+*/
+
+$helpersPath = BASE_PATH
+    . DIRECTORY_SEPARATOR
+    . 'app'
+    . DIRECTORY_SEPARATOR
+    . 'Helpers'
+    . DIRECTORY_SEPARATOR
+    . 'functions.php';
+
+if (!is_file($helpersPath)) {
+    throw new RuntimeException(
+        'No se encontró app/Helpers/functions.php.'
+    );
+}
+
+require_once $helpersPath;
