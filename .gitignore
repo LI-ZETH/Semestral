@@ -27,3 +27,7 @@ Thumbs.db
 # Llaves criptográficas
 /storage/keys/*
 !/storage/keys/.gitkeep
+
+# Imágenes de categorías
+/public/uploads/categorias/*
+!/public/uploads/categorias/.gitkeep

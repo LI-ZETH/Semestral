@@ -21,29 +21,36 @@
             <?= e($role ?? '') ?>
         </strong>.
 
-        Las opciones disponibles se muestran de acuerdo
-        con los permisos asignados a tu cuenta.
+        Selecciona uno de los módulos disponibles para
+        comenzar a trabajar.
     </p>
 </section>
 
 <section class="module-grid">
     <?php foreach ($modules as $module): ?>
-        <article class="module-card">
-            <span class="module-card__number">
-                <?= e($module['number']) ?>
-            </span>
+        <a
+            class="module-card-link"
+            href="<?= e($module['url']) ?>"
+            aria-label="Abrir <?= e($module['title']) ?>"
+        >
+            <article class="module-card">
+                <span class="module-card__number">
+                    <?= e($module['number']) ?>
+                </span>
 
-            <h2>
-                <?= e($module['title']) ?>
-            </h2>
+                <h2>
+                    <?= e($module['title']) ?>
+                </h2>
 
-            <p>
-                <?= e($module['description']) ?>
-            </p>
+                <p>
+                    <?= e($module['description']) ?>
+                </p>
 
-            <span class="module-card__status">
-                <?= e($module['status']) ?>
-            </span>
-        </article>
+                <span class="module-card__status">
+                    <?= e($module['status']) ?>
+                    <span aria-hidden="true">→</span>
+                </span>
+            </article>
+        </a>
     <?php endforeach; ?>
 </section>

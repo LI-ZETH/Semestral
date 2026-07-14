@@ -38,7 +38,8 @@ final class DashboardController extends Controller
                     'description' =>
                         'Registrar, consultar, editar, activar, '
                         . 'desactivar y desbloquear cuentas.',
-                    'status' => 'Siguiente módulo',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('usuarios'),
                 ],
                 [
                     'number' => '02',
@@ -46,15 +47,17 @@ final class DashboardController extends Controller
                     'description' =>
                         'Consultar categorías, productos, activos, '
                         . 'cantidad, estado y custodio actual.',
-                    'status' => 'En preparación',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('inventario'),
                 ],
                 [
                     'number' => '03',
                     'title' => 'Asignaciones',
                     'description' =>
-                        'Consultar quién posee cada equipo y '
-                        . 'el historial de entregas y devoluciones.',
-                    'status' => 'En preparación',
+                        'Consultar quién posee cada equipo y el '
+                        . 'historial de entregas y devoluciones.',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('asignaciones'),
                 ],
             ],
 
@@ -65,7 +68,8 @@ final class DashboardController extends Controller
                     'description' =>
                         'Consultar equipos que necesitan revisión '
                         . 'o reparación y actualizar su estado.',
-                    'status' => 'En preparación',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('reparaciones'),
                 ],
                 [
                     'number' => '02',
@@ -73,15 +77,17 @@ final class DashboardController extends Controller
                     'description' =>
                         'Consultar edificio, piso y oficina de '
                         . 'la persona que registró la solicitud.',
-                    'status' => 'En preparación',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('reparaciones'),
                 ],
                 [
                     'number' => '03',
                     'title' => 'Inventario técnico',
                     'description' =>
                         'Consultar información de los equipos '
-                        . 'requeridos durante el proceso técnico.',
-                    'status' => 'En preparación',
+                        . 'durante el proceso técnico.',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('inventario'),
                 ],
             ],
 
@@ -90,9 +96,10 @@ final class DashboardController extends Controller
                     'number' => '01',
                     'title' => 'Mis equipos',
                     'description' =>
-                        'Consultar todos los activos que se '
-                        . 'encuentran actualmente bajo tu custodia.',
-                    'status' => 'En preparación',
+                        'Consultar los activos que se encuentran '
+                        . 'actualmente bajo tu custodia.',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('mis-equipos'),
                 ],
                 [
                     'number' => '02',
@@ -100,15 +107,17 @@ final class DashboardController extends Controller
                     'description' =>
                         'Solicitar un equipo nuevo o registrar '
                         . 'una necesidad de reparación.',
-                    'status' => 'En preparación',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('solicitudes'),
                 ],
                 [
                     'number' => '03',
                     'title' => 'Mi información',
                     'description' =>
                         'Consultar y actualizar tus datos '
-                        . 'personales y tu ubicación.',
-                    'status' => 'En preparación',
+                        . 'personales y ubicación.',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('perfil'),
                 ],
             ],
 
