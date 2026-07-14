@@ -7,7 +7,7 @@ if (!isset($_SESSION["idUsuario"]) || $_SESSION["idRol"] != 1) {
     exit();
 }
 
-require_once __DIR__ . "/../Modelo/Login.php";
+require_once __DIR__ . "/../Models/Login.php";
 
 $login = new Login();
 $usuarios = $login->obtenerTodosUsuarios();
@@ -140,7 +140,7 @@ $usuarios = $login->obtenerTodosUsuarios();
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <form action="../Controlador/LoginControlador.php" method="POST" style="display:inline;">
+                                                    <form action="../Controllers/LoginControlador.php" method="POST" style="display:inline;">
                                                         <input type="hidden" name="accion" value="cambiarRol">
                                                         <input type="hidden" name="idUsuario" value="<?= $usuario['idUsuario'] ?>">
 

@@ -57,7 +57,7 @@ session_start();
             }
             ?>
 
-            <form action="../Controlador/LoginControlador.php" method="POST">
+            <form action="../Controllers/LoginControlador.php" method="POST">
 
                 <div class="mb-3">
 

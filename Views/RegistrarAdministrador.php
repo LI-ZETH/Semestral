@@ -1,6 +1,6 @@
 <?php
 
-require_once "../Modelo/Login.php";
+require_once "../Models/Login.php";
 
 $login = new Login();
 
@@ -43,7 +43,7 @@ Crear Administrador
 
 <div class="card-body">
 
-<form action="../Controlador/LoginControlador.php" method="POST">
+<form action="../Controllers/LoginControlador.php" method="POST">
 
 <input type="hidden" name="accion" value="registrarAdministrador">
 

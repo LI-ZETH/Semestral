@@ -2,10 +2,10 @@
 
 session_start();
 
-require_once __DIR__ . "/../Modelo/Login.php";
-require_once __DIR__ . "/../Modelo/Usuario.php";
-require_once __DIR__ . "/../Utilidades/Sanitizar.php";
-require_once __DIR__ . "/../Utilidades/Validar.php";
+require_once __DIR__ . "/../Models/Login.php";
+require_once __DIR__ . "/../Models/Usuario.php";
+require_once __DIR__ . "/../Utilities/Sanitizar.php";
+require_once __DIR__ . "/../Utilities/Validar.php";
 
 class LoginControlador
 {
@@ -28,7 +28,7 @@ class LoginControlador
         try {
 
             if ($_SERVER["REQUEST_METHOD"] != "POST") {
-                header("Location: ../Vista/Login.php");
+                header("Location: ../Views/Login.php");
                 exit();
             }
 
@@ -43,7 +43,7 @@ class LoginControlador
 
                 $_SESSION["mensaje"] = "Todos los campos son obligatorios.";
 
-                header("Location: ../Vista/Login.php");
+                header("Location: ../Views/Login.php");
                 exit();
             }
 
@@ -64,7 +64,7 @@ class LoginControlador
 
                 $_SESSION["mensaje"] = "Usuario o contraseña incorrectos.";
 
-                header("Location: ../Vista/Login.php");
+                header("Location: ../Views/Login.php");
                 exit();
             }
 
@@ -73,7 +73,7 @@ class LoginControlador
 
                 $_SESSION["mensaje"] = "El usuario se encuentra bloqueado.";
 
-                header("Location: ../Vista/Login.php");
+                header("Location: ../Views/Login.php");
                 exit();
             }
 
@@ -97,7 +97,7 @@ class LoginControlador
                 $_SESSION["usuario"] = $datosUsuario["usuario"];
                 $_SESSION["idRol"] = $datosUsuario["idRol"];
 
-                header("Location: ../Vista/Home.php");
+                header("Location: ../Views/Home.php");
                 exit();
 
             } else {
@@ -119,7 +119,7 @@ class LoginControlador
 
                 $_SESSION["mensaje"] = "Usuario o contraseña incorrectos.";
 
-                header("Location: ../Vista/Login.php");
+                header("Location: ../Views/Login.php");
                 exit();
             }
 
@@ -127,7 +127,7 @@ class LoginControlador
 
             $_SESSION["mensaje"] = $e->getMessage();
 
-            header("Location: ../Vista/Login.php");
+            header("Location: ../Views/Login.php");
             exit();
         }
     }
@@ -140,7 +140,7 @@ class LoginControlador
 
             // Si ya existe un usuario, no permitir acceso
             if ($this->login->existeAdministrador() > 0) {
-                header("Location: ../Vista/Login.php");
+                header("Location: ../Views/Login.php");
                 exit();
             }
 
@@ -171,7 +171,7 @@ class LoginControlador
                 !$this->validar->campoRequerido($_POST["password"])
             ) {
                 $_SESSION["mensaje"] = "Todos los campos son obligatorios.";
-                header("Location: ../Vista/RegistrarAdministrador.php");
+                header("Location: ../Views/RegistrarAdministrador.php");
                 exit();
             }
 
@@ -184,13 +184,13 @@ class LoginControlador
 
             $_SESSION["mensaje"] = "Administrador creado correctamente.";
 
-            header("Location: ../Vista/Login.php");
+            header("Location: ../Views/Login.php");
             exit();
 
         } catch (Exception $e) {
 
             $_SESSION["mensaje"] = $e->getMessage();
-            header("Location: ../Vista/RegistrarAdministrador.php");
+            header("Location: ../Views/RegistrarAdministrador.php");
             exit();
         }
     }
@@ -243,7 +243,7 @@ class LoginControlador
                 );
 
                 $_SESSION["mensaje"] = "Todos los campos son obligatorios.";
-                header("Location: ../Vista/Registro.php");
+                header("Location: ../Views/Registro.php");
                 exit();
             }
 
@@ -259,7 +259,7 @@ class LoginControlador
                 );
 
                 $_SESSION["mensaje"] = "Las contraseñas no coinciden.";
-                header("Location: ../Vista/Registro.php");
+                header("Location: ../Views/Registro.php");
                 exit();
             }
 
@@ -275,7 +275,7 @@ class LoginControlador
                 );
 
                 $_SESSION["mensaje"] = "La contraseña debe tener al menos 6 caracteres.";
-                header("Location: ../Vista/Registro.php");
+                header("Location: ../Views/Registro.php");
                 exit();
             }
 
@@ -291,7 +291,7 @@ class LoginControlador
                 );
 
                 $_SESSION["mensaje"] = "El nombre de usuario ya está en uso.";
-                header("Location: ../Vista/Registro.php");
+                header("Location: ../Views/Registro.php");
                 exit();
             }
 
@@ -317,7 +317,7 @@ class LoginControlador
 
             $_SESSION["exito"] = "Cuenta creada correctamente. Inicia sesión con tus credenciales.";
 
-            header("Location: ../Vista/Login.php");
+            header("Location: ../Views/Login.php");
             exit();
 
         } catch (Exception $e) {
@@ -336,7 +336,7 @@ class LoginControlador
             );
 
             $_SESSION["mensaje"] = $e->getMessage();
-            header("Location: ../Vista/Registro.php");
+            header("Location: ../Views/Registro.php");
             exit();
         }
     }
@@ -350,12 +350,12 @@ class LoginControlador
 
             // Verificar si el usuario está logueado
             if (!isset($_SESSION["idUsuario"])) {
-                header("Location: ../Vista/Login.php");
+                header("Location: ../Views/Login.php");
                 exit();
             }
 
             if ($_SERVER["REQUEST_METHOD"] != "POST") {
-                header("Location: ../Vista/MiPerfil.php");
+                header("Location: ../Views/MiPerfil.php");
                 exit();
             }
 
@@ -373,7 +373,7 @@ class LoginControlador
                 !$this->validar->campoRequerido($correo)
             ) {
                 $_SESSION["mensaje"] = "Los campos nombre, apellido y correo son obligatorios.";
-                header("Location: ../Vista/MiPerfil.php");
+                header("Location: ../Views/MiPerfil.php");
                 exit();
             }
 
@@ -382,13 +382,13 @@ class LoginControlador
 
                 if ($password !== $passwordConfirm) {
                     $_SESSION["mensaje"] = "Las contraseñas no coinciden.";
-                    header("Location: ../Vista/MiPerfil.php");
+                    header("Location: ../Views/MiPerfil.php");
                     exit();
                 }
 
                 if (strlen($password) < 6) {
                     $_SESSION["mensaje"] = "La contraseña debe tener al menos 6 caracteres.";
-                    header("Location: ../Vista/MiPerfil.php");
+                    header("Location: ../Views/MiPerfil.php");
                     exit();
                 }
 
@@ -405,13 +405,13 @@ class LoginControlador
 
             $_SESSION["exito"] = "Perfil actualizado correctamente.";
 
-            header("Location: ../Vista/MiPerfil.php");
+            header("Location: ../Views/MiPerfil.php");
             exit();
 
         } catch (Exception $e) {
 
             $_SESSION["mensaje"] = $e->getMessage();
-            header("Location: ../Vista/MiPerfil.php");
+            header("Location: ../Views/MiPerfil.php");
             exit();
         }
     }
@@ -425,12 +425,12 @@ class LoginControlador
 
             // Verificar si el usuario está autenticado y es administrador
             if (!isset($_SESSION["idUsuario"]) || $_SESSION["idRol"] != 1) {
-                header("Location: ../Vista/Login.php");
+                header("Location: ../Views/Login.php");
                 exit();
             }
 
             if ($_SERVER["REQUEST_METHOD"] != "POST") {
-                header("Location: ../Vista/Administracion.php");
+                header("Location: ../Views/Administracion.php");
                 exit();
             }
 
@@ -438,7 +438,7 @@ class LoginControlador
 
             if ($idUsuario <= 0) {
                 $_SESSION["mensaje"] = "Usuario inválido.";
-                header("Location: ../Vista/Administracion.php");
+                header("Location: ../Views/Administracion.php");
                 exit();
             }
 
@@ -455,7 +455,7 @@ class LoginControlador
 
             if ($rolActual === null) {
                 $_SESSION["mensaje"] = "Usuario no encontrado.";
-                header("Location: ../Vista/Administracion.php");
+                header("Location: ../Views/Administracion.php");
                 exit();
             }
 
@@ -467,13 +467,13 @@ class LoginControlador
             $rolTexto = ($nuevoRol == 1) ? "Administrador" : "Colaborador";
             $_SESSION["exito"] = "Rol cambiado a " . $rolTexto . " correctamente.";
 
-            header("Location: ../Vista/Administracion.php");
+            header("Location: ../Views/Administracion.php");
             exit();
 
         } catch (Exception $e) {
 
             $_SESSION["mensaje"] = $e->getMessage();
-            header("Location: ../Vista/Administracion.php");
+            header("Location: ../Views/Administracion.php");
             exit();
         }
     }

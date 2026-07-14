@@ -7,7 +7,7 @@ if (!isset($_SESSION["idUsuario"])) {
     exit();
 }
 
-require_once __DIR__ . "/../Modelo/Login.php";
+require_once __DIR__ . "/../Models/Login.php";
 
 $login = new Login();
 $datosUsuario = $login->buscarUserById($_SESSION["idUsuario"]);
@@ -102,7 +102,7 @@ if (!$datosUsuario) {
                         }
                         ?>
 
-                        <form action="../Controlador/LoginControlador.php" method="POST">
+                        <form action="../Controllers/LoginControlador.php" method="POST">
 
                             <input type="hidden" name="accion" value="actualizarPerfil">
                             <input type="hidden" name="idUsuario" value="<?= $_SESSION["idUsuario"] ?>">
