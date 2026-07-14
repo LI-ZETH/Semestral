@@ -6,7 +6,7 @@
     <?php endif; ?>
 
     <span class="section-heading__eyebrow">
-        Panel principal
+        Panel de <?= e($role ?? 'usuario') ?>
     </span>
 
     <h1>
@@ -16,57 +16,34 @@
 
     <p>
         Has iniciado sesión como
+
         <strong>
-            <?= e($user['nombreRol'] ?? '') ?>
+            <?= e($role ?? '') ?>
         </strong>.
-        Desde este panel se administrarán los módulos de
-        Tránsito CMDB.
+
+        Las opciones disponibles se muestran de acuerdo
+        con los permisos asignados a tu cuenta.
     </p>
 </section>
 
 <section class="module-grid">
-    <article class="module-card">
-        <span class="module-card__number">01</span>
+    <?php foreach ($modules as $module): ?>
+        <article class="module-card">
+            <span class="module-card__number">
+                <?= e($module['number']) ?>
+            </span>
 
-        <h2>Inventario</h2>
+            <h2>
+                <?= e($module['title']) ?>
+            </h2>
 
-        <p>
-            Categorías, productos, copias individuales,
-            imágenes, estados y depreciación.
-        </p>
+            <p>
+                <?= e($module['description']) ?>
+            </p>
 
-        <span class="module-card__status">
-            Próximamente
-        </span>
-    </article>
-
-    <article class="module-card">
-        <span class="module-card__number">02</span>
-
-        <h2>Asignaciones</h2>
-
-        <p>
-            Entrega, devolución y trazabilidad de activos
-            tecnológicos.
-        </p>
-
-        <span class="module-card__status">
-            Próximamente
-        </span>
-    </article>
-
-    <article class="module-card">
-        <span class="module-card__number">03</span>
-
-        <h2>Usuarios</h2>
-
-        <p>
-            Administración, roles, bloqueos y estado de
-            las cuentas.
-        </p>
-
-        <span class="module-card__status">
-            Próximamente
-        </span>
-    </article>
+            <span class="module-card__status">
+                <?= e($module['status']) ?>
+            </span>
+        </article>
+    <?php endforeach; ?>
 </section>

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'Tránsito CMDB',
+    'name' => 'TrackiT',
     'environment' => 'development',
     'debug' => true,
     'timezone' => 'America/Panama',

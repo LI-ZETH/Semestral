@@ -15,10 +15,6 @@ final class Auth
 
     public static function login(array $user): void
     {
-        /*
-         * El ID se renueva antes de establecer la identidad
-         * autenticada.
-         */
         Session::regenerate();
 
         Session::put(
@@ -98,6 +94,27 @@ final class Auth
             && self::role() === $role;
     }
 
+    public static function can(
+        string $permission
+    ): bool {
+        $role = self::role();
+
+        if ($role === null) {
+            return false;
+        }
+
+        return Permissions::roleHasPermission(
+            $role,
+            $permission
+        );
+    }
+
+    public static function cannot(
+        string $permission
+    ): bool {
+        return !self::can($permission);
+    }
+
     public static function requireAuth(): void
     {
         if (self::check()) {
@@ -129,14 +146,53 @@ final class Auth
         exit;
     }
 
-    public static function requireRole(string $role): void
-    {
+    public static function requireRole(
+        string $role
+    ): void {
         self::requireAuth();
 
         if (self::hasRole($role)) {
             return;
         }
 
+        self::renderForbidden();
+    }
+
+    public static function requireAnyRole(
+        array $allowedRoles
+    ): void {
+        self::requireAuth();
+
+        $currentRole = self::role();
+
+        if (
+            $currentRole !== null
+            && in_array(
+                $currentRole,
+                $allowedRoles,
+                true
+            )
+        ) {
+            return;
+        }
+
+        self::renderForbidden();
+    }
+
+    public static function requirePermission(
+        string $permission
+    ): void {
+        self::requireAuth();
+
+        if (self::can($permission)) {
+            return;
+        }
+
+        self::renderForbidden();
+    }
+
+    private static function renderForbidden(): void
+    {
         http_response_code(403);
 
         View::render(

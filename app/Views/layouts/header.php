@@ -11,12 +11,11 @@ use App\Core\Auth;
             href="<?= e(base_url()) ?>"
             aria-label="Ir al inicio"
         >
-            <span class="brand__symbol">T</span>
-
-            <span class="brand__text">
-                Tránsito
-                <strong>CMDB</strong>
-            </span>
+            <img
+                class="brand__logo"
+                src="<?= e(asset_url('assets/img/Logo-app.png')) ?>"
+                alt="Logo de TrackiT"
+            >
         </a>
 
         <nav
@@ -28,36 +27,52 @@ use App\Core\Auth;
             </a>
 
             <?php if (Auth::check()): ?>
-                <a href="<?= e(base_url('panel')) ?>">
-                    Panel
-                </a>
+            <a href="<?= e(base_url('panel')) ?>">
+                Panel
+            </a>
 
-                <span class="navigation-user">
+            <?php if (
+                Auth::can(
+                    \App\Core\Permissions::USUARIOS_VER
+                )
+            ): ?>
+                <a href="<?= e(base_url('usuarios')) ?>">
+                    Usuarios
+                </a>
+            <?php endif; ?>
+
+            <div class="navigation-user">
+                <strong>
                     <?= e(
                         Auth::user()['nombre']
                         ?? 'Usuario'
                     ) ?>
-                </span>
+                </strong>
 
-                <form
-                    class="logout-form"
-                    method="POST"
-                    action="<?= e(base_url('logout')) ?>"
+                <small>
+                    <?= e(Auth::role() ?? '') ?>
+                </small>
+            </div>
+
+            <form
+                class="logout-form"
+                method="POST"
+                action="<?= e(base_url('logout')) ?>"
+            >
+                <?= csrf_field() ?>
+
+                <button
+                    class="navigation-button"
+                    type="submit"
                 >
-                    <?= csrf_field() ?>
-
-                    <button
-                        class="navigation-button"
-                        type="submit"
-                    >
-                        Cerrar sesión
-                    </button>
-                </form>
-            <?php else: ?>
-                <a href="<?= e(base_url('login')) ?>">
-                    Iniciar sesión
-                </a>
-            <?php endif; ?>
+                    Cerrar sesión
+                </button>
+            </form>
+        <?php else: ?>
+            <a href="<?= e(base_url('login')) ?>">
+                Iniciar sesión
+            </a>
+        <?php endif; ?>
         </nav>
     </div>
 </header>

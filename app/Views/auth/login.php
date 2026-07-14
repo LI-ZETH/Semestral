@@ -1,12 +1,11 @@
 <section class="auth-section">
     <div class="auth-card">
-        <div class="auth-card__brand">
-            <span class="brand__symbol">T</span>
-
-            <div>
-                <strong>Tránsito CMDB</strong>
-                <span>Gestión tecnológica</span>
-            </div>
+        <div class="auth-card__brand auth-card__brand--logo">
+            <img
+                class="auth-card__logo"
+                src="<?= e(asset_url('assets/img/Logo-app.png')) ?>"
+                alt="Logo de TrackiT"
+            >
         </div>
 
         <div class="auth-card__header">
@@ -14,11 +13,11 @@
                 Acceso seguro
             </span>
 
-            <h1>Iniciar sesión</h1>
+            <h1>Bienvenido a TrackiT</h1>
 
             <p>
-                Introduce tu nombre de usuario o correo
-                institucional para acceder al sistema.
+                Accede al sistema para administrar activos,
+                inventario y trazabilidad tecnológica.
             </p>
         </div>
 

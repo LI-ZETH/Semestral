@@ -6,6 +6,7 @@ use App\Controllers\AuthController;
 use App\Controllers\HomeController;
 use App\Core\Router;
 use App\Controllers\DashboardController;
+use App\Controllers\UsuarioController;
 
 /**
  * @var Router $router
@@ -25,15 +26,6 @@ $router->get(
         HomeController::class,
         'index',
     ]
-);
-
-$router->get(
-    '/prueba-error',
-    static function (): void {
-        throw new RuntimeException(
-            'Error intencional para comprobar el manejador.'
-        );
-    }
 );
 
 $router->get(
@@ -81,5 +73,61 @@ $router->get(
     [
         DashboardController::class,
         'index',
+    ]
+);
+
+$router->get(
+    '/usuarios',
+    [
+        UsuarioController::class,
+        'index',
+    ]
+);
+
+$router->get(
+    '/usuarios/crear',
+    [
+        UsuarioController::class,
+        'create',
+    ]
+);
+
+$router->post(
+    '/usuarios/guardar',
+    [
+        UsuarioController::class,
+        'store',
+    ]
+);
+
+$router->get(
+    '/usuarios/editar',
+    [
+        UsuarioController::class,
+        'edit',
+    ]
+);
+
+$router->post(
+    '/usuarios/actualizar',
+    [
+        UsuarioController::class,
+        'update',
+    ]
+);
+
+$router->post(
+    '/usuarios/estado',
+    [
+        UsuarioController::class,
+        'changeState',
+    ]
+);
+
+$router->post(
+    '/usuarios/desbloquear',
+    [
+        UsuarioController::class,
+        'unlock',
     ]
 );
