@@ -55,3 +55,45 @@ if (!function_exists('e')) {
         );
     }
 }
+
+if (!function_exists('csrf_token')) {
+    /**
+     * Obtiene el token CSRF actual.
+     */
+    function csrf_token(): string
+    {
+        return \App\Core\Csrf::token();
+    }
+}
+
+if (!function_exists('csrf_field')) {
+    /**
+     * Genera el campo oculto para formularios POST.
+     */
+    function csrf_field(): string
+    {
+        $token = e(
+            \App\Core\Csrf::token()
+        );
+
+        return sprintf(
+            '<input type="hidden" name="_token" value="%s">',
+            $token
+        );
+    }
+}
+
+if (!function_exists('flash')) {
+    /**
+     * Obtiene un mensaje temporal de la sesión.
+     */
+    function flash(
+        string $key,
+        mixed $default = null
+    ): mixed {
+        return \App\Core\Session::getFlash(
+            $key,
+            $default
+        );
+    }
+}

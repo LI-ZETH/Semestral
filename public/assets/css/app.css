@@ -340,4 +340,8 @@ a {
     .site-footer p {
         margin: 0;
     }
+
+    .statistic-card + .statistic-card {
+        margin-top: 20px;
+    }
 }

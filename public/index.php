@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Core\Csrf;
 use App\Core\Router;
+use App\Core\View;
 
 require_once dirname(__DIR__) . '/bootstrap.php';
 
@@ -39,6 +41,28 @@ $requestUri = isset($_GET['route'])
 $requestMethod = (string) (
     $_SERVER['REQUEST_METHOD'] ?? 'GET'
 );
+
+/*
+|--------------------------------------------------------------------------
+| Protección global CSRF
+|--------------------------------------------------------------------------
+|
+| Toda solicitud POST, PUT, PATCH o DELETE deberá incluir un token válido.
+|
+*/
+
+if (!Csrf::validateRequest()) {
+    http_response_code(419);
+
+    View::render(
+        'errors/419',
+        [
+            'title' => 'Sesión de formulario expirada',
+        ]
+    );
+
+    exit;
+}
 
 $router->dispatch(
     $requestMethod,
