@@ -1,6 +1,8 @@
 <?php
 
 declare(strict_types=1);
+
+use App\Core\Auth;
 ?>
 <header class="site-header">
     <div class="site-header__container">
@@ -24,6 +26,38 @@ declare(strict_types=1);
             <a href="<?= e(base_url()) ?>">
                 Inicio
             </a>
+
+            <?php if (Auth::check()): ?>
+                <a href="<?= e(base_url('panel')) ?>">
+                    Panel
+                </a>
+
+                <span class="navigation-user">
+                    <?= e(
+                        Auth::user()['nombre']
+                        ?? 'Usuario'
+                    ) ?>
+                </span>
+
+                <form
+                    class="logout-form"
+                    method="POST"
+                    action="<?= e(base_url('logout')) ?>"
+                >
+                    <?= csrf_field() ?>
+
+                    <button
+                        class="navigation-button"
+                        type="submit"
+                    >
+                        Cerrar sesión
+                    </button>
+                </form>
+            <?php else: ?>
+                <a href="<?= e(base_url('login')) ?>">
+                    Iniciar sesión
+                </a>
+            <?php endif; ?>
         </nav>
     </div>
 </header>

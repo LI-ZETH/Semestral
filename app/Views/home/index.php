@@ -1,3 +1,9 @@
+<?php if ($message = flash('success')): ?>
+    <div class="alert alert--success">
+        <?= e($message) ?>
+    </div>
+<?php endif; ?>
+
 <section class="hero">
     <div class="hero__content">
         <span class="hero__eyebrow">
