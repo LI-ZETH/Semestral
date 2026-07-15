@@ -1,0 +1,48 @@
+# Configuración privada
+/config/database.php
+
+# Archivos subidos por usuarios
+/public/uploads/activos/*
+!/public/uploads/activos/.gitkeep
+
+# Registros del sistema
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# Configuración de editores
+/.idea/
+/.vscode/
+
+# Archivos del sistema operativo
+Thumbs.db
+.DS_Store
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Configuración criptográfica privada
+/config/crypto.php
+
+# Llaves criptográficas
+/storage/keys/*
+!/storage/keys/.gitkeep
+
+# Imágenes de categorías
+/public/uploads/categorias/*
+!/public/uploads/categorias/.gitkeep
+
+# Imágenes de subcategorías
+/public/uploads/subcategorias/*
+!/public/uploads/subcategorias/.gitkeep
+
+# Imágenes de productos
+/public/uploads/productos/*
+!/public/uploads/productos/.gitkeep
+
+# Imágenes de copias o activos individuales
+/public/uploads/activos/*
+!/public/uploads/activos/.gitkeep
+# Códigos QR generados y almacenados en caché
+/storage/qrcodes/*
+!/storage/qrcodes/.gitkeep
