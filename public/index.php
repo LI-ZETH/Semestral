@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Core\AuditTrail;
 use App\Core\Csrf;
 use App\Core\Router;
 use App\Core\View;
@@ -63,6 +64,12 @@ if (!Csrf::validateRequest()) {
 
     exit;
 }
+
+AuditTrail::scheduleFromRequest(
+    $requestMethod,
+    $requestUri,
+    $_POST
+);
 
 $router->dispatch(
     $requestMethod,

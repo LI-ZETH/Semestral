@@ -2969,3 +2969,343 @@ textarea:focus-visible {
         grid-column: auto;
     }
 }
+/* =========================================================
+   ETAPA 7D: REPORTES, ESTADÍSTICAS Y AUDITORÍA
+   ========================================================= */
+
+.report-navigation {
+    margin-bottom: 26px;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    background: var(--surface);
+    box-shadow: var(--shadow-small);
+}
+
+.report-navigation a {
+    padding: 9px 13px;
+
+    border: 1px solid transparent;
+    border-radius: 10px;
+
+    color: var(--text-muted);
+
+    font-size: 0.82rem;
+    font-weight: 800;
+
+    transition:
+        color var(--transition),
+        background-color var(--transition),
+        border-color var(--transition);
+}
+
+.report-navigation a:hover {
+    border-color: var(--border-primary);
+    background: var(--primary-soft);
+    color: var(--primary-darker);
+}
+
+.report-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.report-kpi-card {
+    min-width: 0;
+    min-height: 154px;
+    padding: 21px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 9px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    background: var(--surface);
+    box-shadow: var(--shadow-small);
+}
+
+.report-kpi-card > span {
+    color: var(--text-muted);
+
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.report-kpi-card > strong {
+    color: var(--primary-dark);
+
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+    line-height: 1;
+}
+
+.report-kpi-card > small {
+    color: var(--text-muted);
+    line-height: 1.45;
+}
+
+.report-kpi-card--money {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(114, 172, 239, 0.15),
+            transparent
+        ),
+        var(--surface);
+}
+
+.report-shortcut-grid {
+    margin-top: 26px;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.report-shortcut-card {
+    min-height: 145px;
+    padding: 23px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    background: var(--surface);
+    box-shadow: var(--shadow-small);
+
+    transition:
+        transform var(--transition),
+        border-color var(--transition),
+        background-color var(--transition);
+}
+
+.report-shortcut-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-primary);
+    background: var(--surface-hover);
+}
+
+.report-shortcut-card strong {
+    color: var(--text);
+    font-size: 1.03rem;
+}
+
+.report-shortcut-card span {
+    color: var(--text-muted);
+    font-size: 0.86rem;
+    line-height: 1.55;
+}
+
+.report-filters-grid {
+    grid-template-columns:
+        minmax(250px, 2fr)
+        minmax(160px, 1fr)
+        minmax(160px, 1fr)
+        auto;
+}
+
+.depreciation-filter-grid {
+    grid-template-columns: minmax(240px, 380px) auto;
+}
+
+.report-filter-actions {
+    min-width: 205px;
+}
+
+.report-toolbar,
+.report-summary-strip {
+    margin-bottom: 18px;
+    padding: 15px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    background: var(--surface);
+    color: var(--text-muted);
+
+    box-shadow: var(--shadow-small);
+}
+
+.report-summary-strip {
+    justify-content: flex-start;
+}
+
+.report-summary-strip > span {
+    padding-right: 20px;
+    border-right: 1px solid var(--border);
+}
+
+.report-summary-strip .button {
+    margin-left: auto;
+}
+
+.report-table {
+    min-width: 1050px;
+}
+
+.report-table--wide {
+    min-width: 1380px;
+}
+
+.report-table--audit {
+    min-width: 1500px;
+}
+
+.report-table small {
+    color: var(--text-muted);
+}
+
+.report-user-agent {
+    max-width: 320px;
+    display: block;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.report-hash {
+    max-width: 250px;
+    display: block;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--primary-darker);
+
+    font-family:
+        "Cascadia Code",
+        Consolas,
+        monospace;
+    font-size: 0.72rem;
+}
+
+.audit-integrity-card {
+    margin-bottom: 22px;
+    padding: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    background: var(--surface);
+    box-shadow: var(--shadow-small);
+}
+
+.audit-integrity-card > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.audit-integrity-card span,
+.audit-integrity-card small,
+.audit-integrity-card p {
+    color: var(--text-muted);
+}
+
+.audit-integrity-card strong {
+    font-size: 1.35rem;
+}
+
+.audit-integrity-card p {
+    max-width: 560px;
+    margin: 0;
+    line-height: 1.55;
+}
+
+.audit-integrity-card--valid {
+    border-color: var(--success-border);
+    background: var(--success-background);
+}
+
+.audit-integrity-card--valid strong {
+    color: var(--success);
+}
+
+.audit-integrity-card--invalid {
+    border-color: var(--danger-border);
+    background: var(--danger-background);
+}
+
+.audit-integrity-card--invalid strong {
+    color: var(--danger);
+}
+
+@media (max-width: 1200px) {
+    .report-kpi-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .report-shortcut-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .report-filters-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .report-navigation {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .report-navigation a {
+        width: 100%;
+    }
+
+    .report-kpi-grid,
+    .report-shortcut-grid,
+    .report-filters-grid,
+    .depreciation-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .report-toolbar,
+    .report-summary-strip,
+    .audit-integrity-card {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .report-toolbar .button,
+    .report-summary-strip .button {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .report-summary-strip > span {
+        padding-right: 0;
+        padding-bottom: 10px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+    }
+}

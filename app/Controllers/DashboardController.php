@@ -68,6 +68,15 @@ final class DashboardController extends Controller
                     'status' => 'Abrir módulo',
                     'url' => base_url('solicitudes/administrar'),
                 ],
+                [
+                    'number' => '05',
+                    'title' => 'Reportes y auditoría',
+                    'description' =>
+                        'Consultar estadísticas, depreciación, presupuestos, '
+                        . 'movimientos, accesos y la bitácora firmada.',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('reportes'),
+                ],
             ],
 
             Roles::TECNICO => [

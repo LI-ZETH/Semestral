@@ -45,6 +45,16 @@ use App\Core\Auth;
                 </a>
             <?php endif; ?>
 
+            <?php if (
+                Auth::hasRole(
+                    \App\Core\Roles::ADMINISTRADOR
+                )
+            ): ?>
+                <a href="<?= e(base_url('reportes')) ?>">
+                    Reportes
+                </a>
+            <?php endif; ?>
+
             <div class="navigation-user">
                 <strong>
                     <?= e(

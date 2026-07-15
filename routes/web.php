@@ -18,6 +18,7 @@ use App\Controllers\UbicacionController;
 use App\Controllers\SolicitudController;
 use App\Controllers\ReparacionController;
 use App\Controllers\PerfilController;
+use App\Controllers\ReporteController;
 
 /**
  * @var Router $router
@@ -164,14 +165,6 @@ $router->get(
     [
         InventarioController::class,
         'product',
-    ]
-);
-
-$router->get(
-    '/solicitudes',
-    [
-        ModuloController::class,
-        'requests',
     ]
 );
 
@@ -568,3 +561,68 @@ $router->post(
         'changePassword',
     ]
 );
+
+$router->get(
+    '/reportes',
+    [
+        ReporteController::class,
+        'index',
+    ]
+);
+
+$router->get(
+    '/reportes/inventario',
+    [
+        ReporteController::class,
+        'inventory',
+    ]
+);
+
+$router->get(
+    '/reportes/depreciacion',
+    [
+        ReporteController::class,
+        'depreciation',
+    ]
+);
+
+$router->get(
+    '/reportes/necesidades',
+    [
+        ReporteController::class,
+        'needs',
+    ]
+);
+
+$router->get(
+    '/reportes/movimientos',
+    [
+        ReporteController::class,
+        'movements',
+    ]
+);
+
+$router->get(
+    '/reportes/accesos',
+    [
+        ReporteController::class,
+        'accesses',
+    ]
+);
+
+$router->get(
+    '/reportes/auditoria',
+    [
+        ReporteController::class,
+        'audit',
+    ]
+);
+
+$router->get(
+    '/reportes/exportar',
+    [
+        ReporteController::class,
+        'export',
+    ]
+);
+

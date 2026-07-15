@@ -1,5 +1,0 @@
-Agrega al final de .gitignore:
-
-# Imágenes de copias o activos individuales
-/public/uploads/activos/*
-!/public/uploads/activos/.gitkeep
