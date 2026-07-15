@@ -51,6 +51,18 @@ $primaryLabel = Auth::check()
     </div>
 </section>
 
+<?php if (isset($databaseAvailable) && !$databaseAvailable): ?>
+    <section class="public-setup-notice" role="status">
+        <strong>TrackiT está instalado, pero falta conectar la base de datos.</strong>
+
+        <p>
+            Inicia MySQL e importa
+            <code>database/inventario.sql</code>. En XAMPP estándar,
+            la configuración local se crea automáticamente.
+        </p>
+    </section>
+<?php endif; ?>
+
 <section class="public-statistics-section">
     <div class="public-section-heading">
         <span class="public-eyebrow">Sistema conectado</span>

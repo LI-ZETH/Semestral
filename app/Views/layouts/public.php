@@ -25,6 +25,11 @@ declare(strict_types=1);
         rel="stylesheet"
         href="<?= e(asset_url('assets/css/public-site.css')) ?>"
     >
+
+    <link
+        rel="stylesheet"
+        href="<?= e(asset_url('assets/css/clone-setup-patch.css')) ?>"
+    >
 </head>
 
 <body class="public-site <?= e($bodyClass ?? '') ?>">

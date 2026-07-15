@@ -22,19 +22,7 @@ final class Database
             return self::$connection;
         }
 
-        $configPath = BASE_PATH
-            . DIRECTORY_SEPARATOR
-            . 'config'
-            . DIRECTORY_SEPARATOR
-            . 'database.php';
-
-        if (!is_file($configPath)) {
-            throw new RuntimeException(
-                'No existe el archivo config/database.php.'
-            );
-        }
-
-        $config = require $configPath;
+        [$config, $source] = self::loadConfiguration();
 
         self::validateConfiguration($config);
 
@@ -49,8 +37,8 @@ final class Database
         try {
             self::$connection = new PDO(
                 $dsn,
-                $config['username'],
-                $config['password'],
+                (string) $config['username'],
+                (string) $config['password'],
                 [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -61,11 +49,62 @@ final class Database
             return self::$connection;
         } catch (PDOException $exception) {
             throw new RuntimeException(
-                'No se pudo establecer conexión con la base de datos.',
+                'No se pudo conectar con la base de datos "'
+                . (string) $config['database']
+                . '" usando '
+                . basename($source)
+                . '. Verifica que MySQL esté iniciado, que hayas '
+                . 'importado database/inventario.sql y que las '
+                . 'credenciales locales sean correctas.',
                 0,
                 $exception
             );
         }
+    }
+
+    /**
+     * @return array{0: array, 1: string}
+     */
+    private static function loadConfiguration(): array
+    {
+        $configDirectory = BASE_PATH
+            . DIRECTORY_SEPARATOR
+            . 'config';
+
+        $candidates = [
+            $configDirectory
+                . DIRECTORY_SEPARATOR
+                . 'database.php',
+            $configDirectory
+                . DIRECTORY_SEPARATOR
+                . 'database.respaldo.php',
+            $configDirectory
+                . DIRECTORY_SEPARATOR
+                . 'database.example.php',
+        ];
+
+        foreach ($candidates as $candidate) {
+            if (!is_file($candidate)) {
+                continue;
+            }
+
+            $config = require $candidate;
+
+            if (!is_array($config)) {
+                throw new RuntimeException(
+                    basename($candidate)
+                    . ' debe devolver un arreglo de configuración.'
+                );
+            }
+
+            return [$config, $candidate];
+        }
+
+        throw new RuntimeException(
+            'No existe una configuración de base de datos. '
+            . 'Se esperaba config/database.php o '
+            . 'config/database.example.php.'
+        );
     }
 
     private static function validateConfiguration(array $config): void

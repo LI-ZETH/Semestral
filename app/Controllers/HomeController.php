@@ -7,31 +7,56 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Core\Database;
 use PDO;
+use Throwable;
 
 final class HomeController extends Controller
 {
     public function index(): void
     {
-        $connection = Database::getConnection();
-
         $statistics = [
-            'categorias' => $this->countActiveRecords(
-                $connection,
-                'Categoria'
-            ),
-            'subcategorias' => $this->countActiveRecords(
-                $connection,
-                'Subcategoria'
-            ),
-            'productos' => $this->countActiveRecords(
-                $connection,
-                'Producto'
-            ),
-            'activos' => $this->countActiveRecords(
-                $connection,
-                'Activo'
-            ),
+            'categorias' => 0,
+            'subcategorias' => 0,
+            'productos' => 0,
+            'activos' => 0,
         ];
+
+        $databaseAvailable = true;
+        $databaseMessage = null;
+
+        try {
+            $connection = Database::getConnection();
+
+            $statistics = [
+                'categorias' => $this->countActiveRecords(
+                    $connection,
+                    'Categoria'
+                ),
+                'subcategorias' => $this->countActiveRecords(
+                    $connection,
+                    'Subcategoria'
+                ),
+                'productos' => $this->countActiveRecords(
+                    $connection,
+                    'Producto'
+                ),
+                'activos' => $this->countActiveRecords(
+                    $connection,
+                    'Activo'
+                ),
+            ];
+        } catch (Throwable $exception) {
+            /*
+             * La portada pública debe abrir incluso cuando una clonación
+             * todavía no ha importado la base de datos.
+             */
+            $databaseAvailable = false;
+            $databaseMessage = $exception->getMessage();
+
+            error_log(
+                '[TRACKIT BASE DE DATOS] '
+                . $exception->getMessage()
+            );
+        }
 
         $this->view(
             'public/home',
@@ -40,6 +65,8 @@ final class HomeController extends Controller
                 'activePage' => 'inicio',
                 'bodyClass' => 'public-home',
                 'statistics' => $statistics,
+                'databaseAvailable' => $databaseAvailable,
+                'databaseMessage' => $databaseMessage,
             ],
             'public'
         );

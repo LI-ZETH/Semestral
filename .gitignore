@@ -46,3 +46,8 @@ Thumbs.db
 # Códigos QR generados y almacenados en caché
 /storage/qrcodes/*
 !/storage/qrcodes/.gitkeep
+
+# Respaldos locales creados durante pruebas
+/config/*.respaldo.php
+/storage/keys/*.respaldo.pem
+/storage/keys/.passphrase
