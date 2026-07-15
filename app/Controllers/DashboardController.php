@@ -77,6 +77,15 @@ final class DashboardController extends Controller
                     'status' => 'Abrir módulo',
                     'url' => base_url('reportes'),
                 ],
+                [
+                    'number' => '06',
+                    'title' => 'Licencias de software',
+                    'description' =>
+                        'Controlar proveedores, puestos, vencimientos, '
+                        . 'renovaciones y asignaciones de software.',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('licencias'),
+                ],
             ],
 
             Roles::TECNICO => [
@@ -136,6 +145,15 @@ final class DashboardController extends Controller
                         . 'personales y ubicación.',
                     'status' => 'Abrir módulo',
                     'url' => base_url('perfil'),
+                ],
+                [
+                    'number' => '04',
+                    'title' => 'Mis licencias',
+                    'description' =>
+                        'Consultar el software y los puestos de licencia '
+                        . 'asignados a tu cuenta.',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('mis-licencias'),
                 ],
             ],
 

@@ -44,6 +44,15 @@
             Ver inventario
         </a>
 
+        <?php if (($product['tipoProducto'] ?? '') === 'LICENCIA'): ?>
+            <a
+                class="button button--secondary"
+                href="<?= e(base_url('licencias')) ?>"
+            >
+                Gestionar licencias
+            </a>
+        <?php endif; ?>
+
         <a
             class="button"
             href="<?= e(

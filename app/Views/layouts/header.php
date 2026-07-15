@@ -26,7 +26,8 @@ use App\Core\Auth;
                 Inicio
             </a>
 
-            <?php if (Auth::check()): ?>
+            <?php if (Auth::check()): 
+                ?>
             <a href="<?= e(base_url('panel')) ?>">
                 Panel
             </a>
@@ -34,6 +35,25 @@ use App\Core\Auth;
             <a href="<?= e(base_url('perfil')) ?>">
                 Mi perfil
             </a>
+
+                <?php if (
+                    Auth::hasRole(
+                        \App\Core\Roles::ADMINISTRADOR
+                    )
+                ): ?>
+                    <a href="<?= e(base_url('licencias')) ?>">
+                        Licencias
+                    </a>
+
+                <?php elseif (
+                    Auth::hasRole(
+                        \App\Core\Roles::COLABORADOR
+                    )
+                ): ?>
+                    <a href="<?= e(base_url('mis-licencias')) ?>">
+                        Mis licencias
+                    </a>
+                <?php endif; ?>
 
             <?php if (
                 Auth::can(

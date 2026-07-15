@@ -20,6 +20,7 @@ use App\Controllers\ReparacionController;
 use App\Controllers\PerfilController;
 use App\Controllers\ReporteController;
 use App\Controllers\ActivoDetalleController;
+use App\Controllers\LicenciaController;
 
 /**
  * @var Router $router
@@ -650,4 +651,64 @@ $router->get(
         ActivoDetalleController::class,
         'qr',
     ]
+);
+
+$router->get(
+    '/licencias',
+    [LicenciaController::class, 'index']
+);
+
+$router->get(
+    '/licencias/crear',
+    [LicenciaController::class, 'create']
+);
+
+$router->post(
+    '/licencias/guardar',
+    [LicenciaController::class, 'store']
+);
+
+$router->get(
+    '/licencias/ver',
+    [LicenciaController::class, 'show']
+);
+
+$router->get(
+    '/licencias/editar',
+    [LicenciaController::class, 'edit']
+);
+
+$router->post(
+    '/licencias/actualizar',
+    [LicenciaController::class, 'update']
+);
+
+$router->get(
+    '/licencias/asignar',
+    [LicenciaController::class, 'assignmentForm']
+);
+
+$router->post(
+    '/licencias/asignar',
+    [LicenciaController::class, 'assign']
+);
+
+$router->post(
+    '/licencias/asignacion/revocar',
+    [LicenciaController::class, 'revoke']
+);
+
+$router->get(
+    '/licencias/clave',
+    [LicenciaController::class, 'keyForm']
+);
+
+$router->post(
+    '/licencias/clave',
+    [LicenciaController::class, 'revealKey']
+);
+
+$router->get(
+    '/mis-licencias',
+    [LicenciaController::class, 'myLicenses']
 );
