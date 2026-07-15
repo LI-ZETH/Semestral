@@ -815,6 +815,7 @@ El proyecto implementa:
 
 - Repositorio: `https://github.com/LI-ZETH/Semestral`
 - Rama final: `main`
+- Video explicativo: `https://utpac-my.sharepoint.com/:v:/g/personal/guillermo_mas_utp_ac_pa/IQAImj6eqXqJSLNtQWDK6fl9AQ-mhfaYE1hg10OnHuD8TeE?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=OoYr4R`
 
 ## Publicación en la rama principal
 
