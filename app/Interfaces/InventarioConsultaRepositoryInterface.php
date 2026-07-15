@@ -8,8 +8,12 @@ interface InventarioConsultaRepositoryInterface
 {
     public function getCategorySummary(): array;
 
-    public function getCategoryProducts(
+    public function getCategorySubcategories(
         int $categoryId
+    ): ?array;
+
+    public function getSubcategoryProducts(
+        int $subcategoryId
     ): ?array;
 
     public function getProductDetail(

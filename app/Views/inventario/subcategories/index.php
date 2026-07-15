@@ -1,41 +1,37 @@
 <section class="management-header">
     <div>
         <span class="section-heading__eyebrow">
-            Inventario
+            <?= e($category['nombreCategoria']) ?>
         </span>
 
-        <h1>Administrar categorías</h1>
+        <h1>Administrar subcategorías</h1>
 
         <p>
-            Registra, actualiza, activa o desactiva
-            las categorías principales del inventario.
+            Organiza los tipos de productos que pertenecen
+            a esta categoría.
         </p>
     </div>
 
     <div class="management-header__actions">
         <a
             class="button button--secondary"
-            href="<?= e(base_url('panel')) ?>"
+            href="<?= e(
+                base_url('inventario/categorias')
+            ) ?>"
         >
-            Volver al panel
-        </a>
-
-        <a
-            class="button button--secondary"
-            href="<?= e(base_url('inventario')) ?>"
-        >
-            Ver inventario
+            Volver a categorías
         </a>
 
         <a
             class="button"
             href="<?= e(
                 base_url(
-                    'inventario/categorias/crear'
+                    'inventario/subcategorias/crear?categoria='
+                    . $category['idCategoria']
                 )
             ) ?>"
         >
-            Registrar categoría
+            Registrar subcategoría
         </a>
     </div>
 </section>
@@ -57,8 +53,7 @@
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Categoría</th>
-                    <th>Subcategorías</th>
+                    <th>Subcategoría</th>
                     <th>Productos</th>
                     <th>Activos</th>
                     <th>Estado</th>
@@ -67,77 +62,84 @@
             </thead>
 
             <tbody>
+                <?php if ($subcategories === []): ?>
+                    <tr>
+                        <td
+                            class="table-empty"
+                            colspan="5"
+                        >
+                            No existen subcategorías registradas.
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
                 <?php foreach (
-                    $categories as $category
+                    $subcategories as $subcategory
                 ): ?>
                     <tr>
                         <td>
-                            <div class="category-table-cell">
+                            <div class="subcategory-table-cell">
                                 <?php if (
-                                    !empty(
-                                        $category['imagen']
-                                    )
+                                    !empty($subcategory['imagen'])
                                 ): ?>
                                     <img
                                         src="<?= e(
                                             asset_url(
-                                                $category[
-                                                    'imagen'
-                                                ]
+                                                $subcategory['imagen']
                                             )
                                         ) ?>"
                                         alt=""
                                     >
+                                <?php else: ?>
+                                    <span class="subcategory-initial">
+                                        <?= e(
+                                            mb_substr(
+                                                $subcategory[
+                                                    'nombreSubcategoria'
+                                                ],
+                                                0,
+                                                1
+                                            )
+                                        ) ?>
+                                    </span>
                                 <?php endif; ?>
 
                                 <div>
                                     <strong>
                                         <?= e(
-                                            $category[
-                                                'nombreCategoria'
+                                            $subcategory[
+                                                'nombreSubcategoria'
                                             ]
                                         ) ?>
                                     </strong>
 
-                                    <span>
+                                    <small>
                                         <?= e(
-                                            $category[
+                                            $subcategory[
                                                 'descripcion'
                                             ]
                                             ?? 'Sin descripción'
                                         ) ?>
-                                    </span>
+                                    </small>
                                 </div>
                             </div>
                         </td>
 
                         <td>
                             <?= e(
-                                $category[
-                                    'totalSubcategorias'
-                                ]
+                                $subcategory['totalProductos']
                             ) ?>
                         </td>
 
                         <td>
                             <?= e(
-                                $category[
-                                    'totalProductos'
-                                ]
-                            ) ?>
-                        </td>
-
-                        <td>
-                            <?= e(
-                                $category[
-                                    'totalActivos'
-                                ]
+                                $subcategory['totalActivos']
                             ) ?>
                         </td>
 
                         <td>
                             <?php if (
-                                (bool) $category['activo']
+                                (bool) $subcategory['activo']
                             ): ?>
                                 <span class="badge badge--active">
                                     Activa
@@ -152,23 +154,14 @@
                         <td>
                             <div class="table-actions">
                                 <a
-                                    class="button button--small button--secondary"
+                                    class="button button--small
+                                        button--secondary"
                                     href="<?= e(
                                         base_url(
-                                            'inventario/subcategorias?categoria='
-                                            . $category['idCategoria']
-                                        )
-                                    ) ?>"
-                                >
-                                    Subcategorías
-                                </a>
-
-                                <a
-                                    class="button button--small button--secondary"
-                                    href="<?= e(
-                                        base_url(
-                                            'inventario/categorias/editar?id='
-                                            . $category['idCategoria']
+                                            'inventario/subcategorias/editar?id='
+                                            . $subcategory[
+                                                'idSubcategoria'
+                                            ]
                                         )
                                     ) ?>"
                                 >
@@ -180,11 +173,21 @@
                                     method="POST"
                                     action="<?= e(
                                         base_url(
-                                            'inventario/categorias/estado'
+                                            'inventario/subcategorias/estado'
                                         )
                                     ) ?>"
                                 >
                                     <?= csrf_field() ?>
+
+                                    <input
+                                        type="hidden"
+                                        name="idSubcategoria"
+                                        value="<?= e(
+                                            $subcategory[
+                                                'idSubcategoria'
+                                            ]
+                                        ) ?>"
+                                    >
 
                                     <input
                                         type="hidden"
@@ -197,19 +200,19 @@
                                     <input
                                         type="hidden"
                                         name="activo"
-                                        value="<?= (bool) $category['activo']
+                                        value="<?= (bool) $subcategory['activo']
                                             ? '0'
                                             : '1' ?>"
                                     >
 
                                     <button
                                         class="button button--small
-                                            <?= (bool) $category['activo']
+                                            <?= (bool) $subcategory['activo']
                                                 ? 'button--danger'
                                                 : '' ?>"
                                         type="submit"
                                     >
-                                        <?= (bool) $category['activo']
+                                        <?= (bool) $subcategory['activo']
                                             ? 'Desactivar'
                                             : 'Activar' ?>
                                     </button>

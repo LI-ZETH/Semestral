@@ -4,97 +4,130 @@
             <?= e($category['nombreCategoria']) ?>
         </span>
 
-        <h1>Productos registrados</h1>
+        <h1>Subcategorías</h1>
 
         <p>
             <?= e(
                 $category['descripcion']
-                ?? 'Productos asociados a la categoría.'
+                ?? 'Clasificaciones de esta categoría.'
             ) ?>
         </p>
     </div>
 
-    <a
-        class="button button--secondary"
-        href="<?= e(base_url('inventario')) ?>"
-    >
-        Volver a categorías
-    </a>
+    <div class="management-header__actions">
+        <a
+            class="button button--secondary"
+            href="<?= e(base_url('inventario')) ?>"
+        >
+            Volver a categorías
+        </a>
+
+        <?php if (
+            \App\Core\Auth::can(
+                \App\Core\Permissions::INVENTARIO_GESTIONAR
+            )
+        ): ?>
+            <a
+                class="button"
+                href="<?= e(
+                    base_url(
+                        'inventario/subcategorias?categoria='
+                        . $category['idCategoria']
+                    )
+                ) ?>"
+            >
+                Administrar subcategorías
+            </a>
+        <?php endif; ?>
+    </div>
 </section>
 
-<div class="inventory-product-grid">
-    <?php if ($products === []): ?>
+<div class="inventory-subcategory-grid">
+    <?php if ($subcategories === []): ?>
         <div class="empty-state">
-            <h2>No hay productos registrados</h2>
+            <h2>No hay subcategorías activas</h2>
 
             <p>
-                Esta categoría todavía no contiene productos.
+                Esta categoría todavía no tiene
+                subcategorías disponibles.
             </p>
         </div>
     <?php endif; ?>
 
-    <?php foreach ($products as $product): ?>
+    <?php foreach ($subcategories as $subcategory): ?>
         <a
-            class="inventory-product-card"
+            class="inventory-subcategory-card"
             href="<?= e(
                 base_url(
-                    'inventario/producto?id='
-                    . $product['idProducto']
+                    'inventario/subcategoria?id='
+                    . $subcategory['idSubcategoria']
                 )
             ) ?>"
         >
-            <div class="inventory-product-card__image">
-                <?php if (!empty($product['imagen'])): ?>
+            <div class="inventory-subcategory-card__media">
+                <?php if (!empty($subcategory['imagen'])): ?>
                     <img
                         src="<?= e(
-                            asset_url($product['imagen'])
+                            asset_url($subcategory['imagen'])
                         ) ?>"
-                        alt="<?= e($product['nombreProducto']) ?>"
+                        alt="<?= e(
+                            $subcategory[
+                                'nombreSubcategoria'
+                            ]
+                        ) ?>"
                     >
                 <?php else: ?>
-                    <span>Sin imagen</span>
+                    <span>
+                        <?= e(
+                            mb_substr(
+                                $subcategory[
+                                    'nombreSubcategoria'
+                                ],
+                                0,
+                                1
+                            )
+                        ) ?>
+                    </span>
                 <?php endif; ?>
             </div>
 
-            <div class="inventory-product-card__body">
-                <span class="badge badge--role">
-                    <?= e($product['nombreSubcategoria']) ?>
-                </span>
-
+            <div class="inventory-subcategory-card__body">
                 <h2>
-                    <?= e($product['nombreProducto']) ?>
+                    <?= e(
+                        $subcategory[
+                            'nombreSubcategoria'
+                        ]
+                    ) ?>
                 </h2>
 
-                <p class="inventory-product-card__model">
+                <p>
                     <?= e(
-                        trim(
-                            ($product['marca'] ?? '')
-                            . ' '
-                            . ($product['modelo'] ?? '')
-                        )
+                        $subcategory['descripcion']
+                        ?? 'Sin descripción.'
                     ) ?>
                 </p>
 
-                <div class="inventory-product-card__stats">
+                <div class="inventory-subcategory-card__stats">
                     <span>
                         <strong>
-                            <?= e($product['totalActivos']) ?>
+                            <?= e(
+                                $subcategory[
+                                    'totalProductos'
+                                ]
+                            ) ?>
                         </strong>
-                        Copias
+                        Productos
                     </span>
 
                     <span>
                         <strong>
-                            <?= e($product['disponibles']) ?>
+                            <?= e(
+                                $subcategory[
+                                    'totalActivos'
+                                ]
+                            ) ?>
                         </strong>
-                        Disponibles
-                    </span>
-
-                    <span>
-                        <strong>
-                            <?= e($product['asignados']) ?>
-                        </strong>
-                        Asignadas
+                        Activos
                     </span>
                 </div>
             </div>

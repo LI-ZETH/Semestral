@@ -56,7 +56,7 @@ final class InventarioController extends Controller
         $repository =
             new InventarioConsultaRepository();
 
-        $result = $repository->getCategoryProducts(
+        $result = $repository->getCategorySubcategories(
             $categoryId
         );
 
@@ -72,7 +72,59 @@ final class InventarioController extends Controller
                 'title' =>
                     $result['category']['nombreCategoria'],
                 'category' => $result['category'],
-                'products' => $result['products'],
+                'subcategories' =>
+                    $result['subcategories'],
+            ]
+        );
+    }
+
+    public function subcategory(): void
+    {
+        Auth::requireAnyRole([
+            Roles::ADMINISTRADOR,
+            Roles::TECNICO,
+        ]);
+
+        $subcategoryId = filter_input(
+            INPUT_GET,
+            'id',
+            FILTER_VALIDATE_INT
+        );
+
+        if (
+            !is_int($subcategoryId)
+            || $subcategoryId <= 0
+        ) {
+            $this->renderNotFound('/inventario');
+
+            return;
+        }
+
+        $repository =
+            new InventarioConsultaRepository();
+
+        $result = $repository
+            ->getSubcategoryProducts(
+                $subcategoryId
+            );
+
+        if ($result === null) {
+            $this->renderNotFound('/inventario');
+
+            return;
+        }
+
+        $this->view(
+            'inventario/subcategory',
+            [
+                'title' =>
+                    $result['subcategory'][
+                        'nombreSubcategoria'
+                    ],
+                'subcategory' =>
+                    $result['subcategory'],
+                'products' =>
+                    $result['products'],
             ]
         );
     }

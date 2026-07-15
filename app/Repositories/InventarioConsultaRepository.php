@@ -53,7 +53,7 @@ final class InventarioConsultaRepository implements
         return $statement->fetchAll();
     }
 
-    public function getCategoryProducts(
+    public function getCategorySubcategories(
         int $categoryId
     ): ?array {
         $categoryStatement = $this->connection->prepare(
@@ -62,12 +62,10 @@ final class InventarioConsultaRepository implements
                 idCategoria,
                 nombreCategoria,
                 descripcion,
-                imagen,
-                imagenAjuste,
-                imagenTamano
+                imagen
             FROM Categoria
             WHERE idCategoria = :idCategoria
-              AND activo = 1
+            AND activo = 1
             LIMIT 1
             '
         );
@@ -82,6 +80,91 @@ final class InventarioConsultaRepository implements
             return null;
         }
 
+        $statement = $this->connection->prepare(
+            '
+            SELECT
+                s.idSubcategoria,
+                s.nombreSubcategoria,
+                s.descripcion,
+                s.imagen,
+
+                COUNT(
+                    DISTINCT CASE
+                        WHEN p.activo = 1
+                        THEN p.idProducto
+                    END
+                ) AS totalProductos,
+
+                COUNT(
+                    DISTINCT CASE
+                        WHEN a.activo = 1
+                        THEN a.idActivo
+                    END
+                ) AS totalActivos
+
+            FROM Subcategoria s
+
+            LEFT JOIN Producto p
+                ON p.idSubcategoria = s.idSubcategoria
+
+            LEFT JOIN Activo a
+                ON a.idProducto = p.idProducto
+
+            WHERE s.idCategoria = :subcategoryCategoryId
+            AND s.activo = 1
+
+            GROUP BY
+                s.idSubcategoria,
+                s.nombreSubcategoria,
+                s.descripcion,
+                s.imagen
+
+            ORDER BY s.nombreSubcategoria ASC
+            '
+        );
+
+        $statement->execute([
+            'subcategoryCategoryId' => $categoryId,
+        ]);
+
+        return [
+            'category' => $category,
+            'subcategories' => $statement->fetchAll(),
+        ];
+    }
+
+    public function getSubcategoryProducts(
+        int $subcategoryId
+    ): ?array {
+        $subcategoryStatement = $this->connection->prepare(
+            '
+            SELECT
+                s.idSubcategoria,
+                s.idCategoria,
+                s.nombreSubcategoria,
+                s.descripcion,
+                s.imagen,
+                c.nombreCategoria
+            FROM Subcategoria s
+            INNER JOIN Categoria c
+                ON c.idCategoria = s.idCategoria
+            WHERE s.idSubcategoria = :idSubcategoria
+            AND s.activo = 1
+            AND c.activo = 1
+            LIMIT 1
+            '
+        );
+
+        $subcategoryStatement->execute([
+            'idSubcategoria' => $subcategoryId,
+        ]);
+
+        $subcategory = $subcategoryStatement->fetch();
+
+        if (!is_array($subcategory)) {
+            return null;
+        }
+
         $productStatement = $this->connection->prepare(
             '
             SELECT
@@ -93,7 +176,6 @@ final class InventarioConsultaRepository implements
                 p.tipoProducto,
                 p.vidaUtilMeses,
                 p.imagen,
-                s.nombreSubcategoria,
 
                 COUNT(a.idActivo) AS totalActivos,
 
@@ -123,19 +205,15 @@ final class InventarioConsultaRepository implements
 
             FROM Producto p
 
-            INNER JOIN Subcategoria s
-                ON s.idSubcategoria = p.idSubcategoria
-
             LEFT JOIN Activo a
                 ON a.idProducto = p.idProducto
-               AND a.activo = 1
+            AND a.activo = 1
 
             LEFT JOIN EstadoActivo ea
                 ON ea.idEstadoActivo = a.idEstadoActivo
 
-            WHERE s.idCategoria = :idCategoria
-              AND p.activo = 1
-              AND s.activo = 1
+            WHERE p.idSubcategoria = :productSubcategoryId
+            AND p.activo = 1
 
             GROUP BY
                 p.idProducto,
@@ -145,8 +223,7 @@ final class InventarioConsultaRepository implements
                 p.descripcion,
                 p.tipoProducto,
                 p.vidaUtilMeses,
-                p.imagen,
-                s.nombreSubcategoria
+                p.imagen
 
             ORDER BY
                 p.nombreProducto ASC,
@@ -156,11 +233,11 @@ final class InventarioConsultaRepository implements
         );
 
         $productStatement->execute([
-            'idCategoria' => $categoryId,
+            'productSubcategoryId' => $subcategoryId,
         ]);
 
         return [
-            'category' => $category,
+            'subcategory' => $subcategory,
             'products' => $productStatement->fetchAll(),
         ];
     }

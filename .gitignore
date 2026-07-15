@@ -31,3 +31,7 @@ Thumbs.db
 # Imágenes de categorías
 /public/uploads/categorias/*
 !/public/uploads/categorias/.gitkeep
+
+# Imágenes de subcategorías
+/public/uploads/subcategorias/*
+!/public/uploads/subcategorias/.gitkeep

@@ -10,6 +10,8 @@ use App\Controllers\UsuarioController;
 use App\Controllers\InventarioController;
 use App\Controllers\ModuloController;
 use App\Controllers\CategoriaController;
+use App\Controllers\SubcategoriaController;
+
 /**
  * @var Router $router
  */
@@ -242,6 +244,62 @@ $router->post(
     '/inventario/categorias/estado',
     [
         CategoriaController::class,
+        'changeState',
+    ]
+);
+
+$router->get(
+    '/inventario/subcategoria',
+    [
+        InventarioController::class,
+        'subcategory',
+    ]
+);
+
+$router->get(
+    '/inventario/subcategorias',
+    [
+        SubcategoriaController::class,
+        'index',
+    ]
+);
+
+$router->get(
+    '/inventario/subcategorias/crear',
+    [
+        SubcategoriaController::class,
+        'create',
+    ]
+);
+
+$router->post(
+    '/inventario/subcategorias/guardar',
+    [
+        SubcategoriaController::class,
+        'store',
+    ]
+);
+
+$router->get(
+    '/inventario/subcategorias/editar',
+    [
+        SubcategoriaController::class,
+        'edit',
+    ]
+);
+
+$router->post(
+    '/inventario/subcategorias/actualizar',
+    [
+        SubcategoriaController::class,
+        'update',
+    ]
+);
+
+$router->post(
+    '/inventario/subcategorias/estado',
+    [
+        SubcategoriaController::class,
         'changeState',
     ]
 );
