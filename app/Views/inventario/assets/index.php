@@ -314,78 +314,117 @@
                                     Ficha
                                 </a>
 
-                            <?php if (
-                                (bool) $asset['activo']
-                                && $asset['codigoEstado'] === 'EN_INVENTARIO'
-                            ): ?>
-                                <a
-                                    class="button button--small"
-                                    href="<?= e(
-                                        base_url(
-                                            'asignaciones/crear?activo='
-                                            . $asset['idActivo']
-                                        )
-                                    ) ?>"
-                                >
-                                    Asignar
-                                </a>
-                            <?php endif; ?>
-                            
-                                <a
-                                    class="button button--small button--secondary"
-                                    href="<?= e(
-                                        base_url(
-                                            'inventario/activos/editar?id='
-                                            . $asset['idActivo']
-                                        )
-                                    ) ?>"
-                                >
-                                    Editar
-                                </a>
-
-                                <form
-                                    class="inline-form"
-                                    method="POST"
-                                    action="<?= e(
-                                        base_url(
-                                            'inventario/activos/estado'
-                                        )
-                                    ) ?>"
-                                >
-                                    <?= csrf_field() ?>
-
-                                    <input
-                                        type="hidden"
-                                        name="idActivo"
-                                        value="<?= e($asset['idActivo']) ?>"
+                                <?php if (!empty($asset['idBaja'])): ?>
+                                    <a
+                                        class="button button--small"
+                                        href="<?= e(
+                                            base_url(
+                                                'bajas/ver?id='
+                                                . $asset['idBaja']
+                                            )
+                                        ) ?>"
                                     >
+                                        Ver baja
+                                    </a>
+                                <?php else: ?>
+                                    <?php if (
+                                        (bool) $asset['activo']
+                                        && $asset['codigoEstado']
+                                            === 'EN_INVENTARIO'
+                                    ): ?>
+                                        <a
+                                            class="button button--small"
+                                            href="<?= e(
+                                                base_url(
+                                                    'asignaciones/crear?activo='
+                                                    . $asset['idActivo']
+                                                )
+                                            ) ?>"
+                                        >
+                                            Asignar
+                                        </a>
+                                    <?php endif; ?>
 
-                                    <input
-                                        type="hidden"
-                                        name="idProducto"
-                                        value="<?= e($product['idProducto']) ?>"
+                                    <?php if (
+                                        (bool) $asset['activo']
+                                        && in_array(
+                                            $asset['codigoEstado'],
+                                            [
+                                                'EN_INVENTARIO',
+                                                'REVISION_TECNICA',
+                                            ],
+                                            true
+                                        )
+                                    ): ?>
+                                        <a
+                                            class="button button--small button--warning"
+                                            href="<?= e(
+                                                base_url(
+                                                    'bajas/crear?activo='
+                                                    . $asset['idActivo']
+                                                )
+                                            ) ?>"
+                                        >
+                                            Registrar baja
+                                        </a>
+                                    <?php endif; ?>
+
+                                    <a
+                                        class="button button--small button--secondary"
+                                        href="<?= e(
+                                            base_url(
+                                                'inventario/activos/editar?id='
+                                                . $asset['idActivo']
+                                            )
+                                        ) ?>"
                                     >
+                                        Editar
+                                    </a>
 
-                                    <input
-                                        type="hidden"
-                                        name="activo"
-                                        value="<?= (bool) $asset['activo']
-                                            ? '0'
-                                            : '1' ?>"
+                                    <form
+                                        class="inline-form"
+                                        method="POST"
+                                        action="<?= e(
+                                            base_url(
+                                                'inventario/activos/estado'
+                                            )
+                                        ) ?>"
                                     >
+                                        <?= csrf_field() ?>
 
-                                    <button
-                                        class="button button--small
+                                        <input
+                                            type="hidden"
+                                            name="idActivo"
+                                            value="<?= e($asset['idActivo']) ?>"
+                                        >
+
+                                        <input
+                                            type="hidden"
+                                            name="idProducto"
+                                            value="<?= e($product['idProducto']) ?>"
+                                        >
+
+                                        <input
+                                            type="hidden"
+                                            name="activo"
+                                            value="<?= (bool) $asset['activo']
+                                                ? '0'
+                                                : '1' ?>"
+                                        >
+
+                                        <button
+                                            class="button button--small
+                                                <?= (bool) $asset['activo']
+                                                    ? 'button--danger'
+                                                    : '' ?>"
+                                            type="submit"
+                                        >
                                             <?= (bool) $asset['activo']
-                                                ? 'button--danger'
-                                                : '' ?>"
-                                        type="submit"
-                                    >
-                                        <?= (bool) $asset['activo']
-                                            ? 'Desactivar'
-                                            : 'Activar' ?>
-                                    </button>
-                                </form>
+                                                ? 'Desactivar'
+                                                : 'Activar' ?>
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
                             </div>
                         </td>
                     </tr>

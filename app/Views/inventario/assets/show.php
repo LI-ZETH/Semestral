@@ -90,17 +90,55 @@ $formatDateTime = static function (mixed $value): string {
                     \App\Core\Permissions::INVENTARIO_GESTIONAR
                 )
             ): ?>
-                <a
-                    class="button button--secondary"
-                    href="<?= e(
-                        base_url(
-                            'inventario/activos/editar?id='
-                            . $asset['idActivo']
+                <?php if (!empty($asset['idBaja'])): ?>
+                    <a
+                        class="button button--warning"
+                        href="<?= e(
+                            base_url(
+                                'bajas/ver?id='
+                                . $asset['idBaja']
+                            )
+                        ) ?>"
+                    >
+                        Ver baja registrada
+                    </a>
+                <?php else: ?>
+                    <a
+                        class="button button--secondary"
+                        href="<?= e(
+                            base_url(
+                                'inventario/activos/editar?id='
+                                . $asset['idActivo']
+                            )
+                        ) ?>"
+                    >
+                        Editar copia
+                    </a>
+
+                    <?php if (
+                        (bool) $asset['activo']
+                        && in_array(
+                            $asset['codigoEstado'],
+                            [
+                                'EN_INVENTARIO',
+                                'REVISION_TECNICA',
+                            ],
+                            true
                         )
-                    ) ?>"
-                >
-                    Editar copia
-                </a>
+                    ): ?>
+                        <a
+                            class="button button--warning"
+                            href="<?= e(
+                                base_url(
+                                    'bajas/crear?activo='
+                                    . $asset['idActivo']
+                                )
+                            ) ?>"
+                        >
+                            Registrar baja
+                        </a>
+                    <?php endif; ?>
+                <?php endif; ?>
             <?php endif; ?>
 
             <button
@@ -113,6 +151,14 @@ $formatDateTime = static function (mixed $value): string {
         </div>
     </div>
 </section>
+
+<?php if (!empty($asset['idBaja'])): ?>
+    <div class="alert alert--warning">
+        Esta copia tiene una baja definitiva registrada como
+        <strong><?= e($asset['nombreTipoBaja'] ?? 'baja') ?></strong>.
+        Su información se conserva únicamente para trazabilidad.
+    </div>
+<?php endif; ?>
 
 <?php if ($isLocalAddress): ?>
     <div class="alert alert--warning asset-qr-warning">

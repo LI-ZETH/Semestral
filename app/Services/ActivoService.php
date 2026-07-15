@@ -186,6 +186,13 @@ final class ActivoService
             ]);
         }
 
+        if ($this->repository->hasRegisteredDisposal($assetId)) {
+            throw new ValidationException([
+                'general' =>
+                    'No puedes editar una copia que ya fue dada de baja.',
+            ]);
+        }
+
         $currentImages = $this->repository
             ->findImages($assetId);
 
@@ -401,6 +408,13 @@ final class ActivoService
         if ($asset === null) {
             throw new ValidationException([
                 'general' => 'El activo solicitado no existe.',
+            ]);
+        }
+
+        if ($this->repository->hasRegisteredDisposal($assetId)) {
+            throw new ValidationException([
+                'general' =>
+                    'No puedes activar, desactivar o modificar una copia que ya fue dada de baja.',
             ]);
         }
 

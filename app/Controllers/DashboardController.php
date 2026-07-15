@@ -86,6 +86,15 @@ final class DashboardController extends Controller
                     'status' => 'Abrir módulo',
                     'url' => base_url('licencias'),
                 ],
+                [
+                    'number' => '07',
+                    'title' => 'Bajas de activos',
+                    'description' =>
+                        'Formalizar descartes y donaciones conservando '
+                        . 'la trazabilidad completa del inventario.',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('bajas'),
+                ],
             ],
 
             Roles::TECNICO => [

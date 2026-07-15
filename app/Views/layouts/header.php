@@ -45,6 +45,10 @@ use App\Core\Auth;
                         Licencias
                     </a>
 
+                    <a href="<?= e(base_url('bajas')) ?>">
+                        Bajas
+                    </a>
+
                 <?php elseif (
                     Auth::hasRole(
                         \App\Core\Roles::COLABORADOR

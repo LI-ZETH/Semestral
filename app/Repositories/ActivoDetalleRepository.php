@@ -64,6 +64,9 @@ final class ActivoDetalleRepository implements
 
                 ea.codigoEstado,
                 ea.nombreEstado,
+                b.idBaja,
+                tb.codigoTipo AS codigoTipoBaja,
+                tb.nombreTipo AS nombreTipoBaja,
                 p.nombreProducto,
                 p.marca,
                 p.modelo,
@@ -100,6 +103,12 @@ final class ActivoDetalleRepository implements
 
             INNER JOIN EstadoActivo ea
                 ON ea.idEstadoActivo = a.idEstadoActivo
+
+            LEFT JOIN BajaActivo b
+                ON b.idActivo = a.idActivo
+
+            LEFT JOIN TipoBaja tb
+                ON tb.idTipoBaja = b.idTipoBaja
 
             INNER JOIN Producto p
                 ON p.idProducto = a.idProducto

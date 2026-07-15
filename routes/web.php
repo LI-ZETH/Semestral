@@ -21,6 +21,7 @@ use App\Controllers\PerfilController;
 use App\Controllers\ReporteController;
 use App\Controllers\ActivoDetalleController;
 use App\Controllers\LicenciaController;
+use App\Controllers\BajaActivoController;
 
 /**
  * @var Router $router
@@ -712,3 +713,24 @@ $router->get(
     '/mis-licencias',
     [LicenciaController::class, 'myLicenses']
 );
+
+$router->get(
+    '/bajas',
+    [BajaActivoController::class, 'index']
+);
+
+$router->get(
+    '/bajas/crear',
+    [BajaActivoController::class, 'create']
+);
+
+$router->post(
+    '/bajas/guardar',
+    [BajaActivoController::class, 'store']
+);
+
+$router->get(
+    '/bajas/ver',
+    [BajaActivoController::class, 'show']
+);
+

@@ -50,6 +50,8 @@ final class ActivoRepository implements ActivoRepositoryInterface
                 ea.codigoEstado,
                 ea.nombreEstado,
                 u.nombreUbicacion,
+                b.idBaja,
+                tb.codigoTipo AS codigoTipoBaja,
                 (
                     SELECT ia.rutaImagen
                     FROM ImagenActivo ia
@@ -72,6 +74,10 @@ final class ActivoRepository implements ActivoRepositoryInterface
                 ON ea.idEstadoActivo = a.idEstadoActivo
             LEFT JOIN Ubicacion u
                 ON u.idUbicacion = a.idUbicacion
+            LEFT JOIN BajaActivo b
+                ON b.idActivo = a.idActivo
+            LEFT JOIN TipoBaja tb
+                ON tb.idTipoBaja = b.idTipoBaja
             WHERE a.idProducto = :idProducto
         ';
 
@@ -172,7 +178,13 @@ final class ActivoRepository implements ActivoRepositoryInterface
                 cuentaComoInventario,
                 activo
             FROM EstadoActivo
-            WHERE activo = 1
+            WHERE (
+                activo = 1
+                AND codigoEstado NOT IN (
+                    "DESCARTE",
+                    "DONADO"
+                )
+            )
         ';
 
         $parameters = [];
@@ -336,6 +348,8 @@ final class ActivoRepository implements ActivoRepositoryInterface
                 ea.codigoEstado,
                 ea.nombreEstado,
                 u.nombreUbicacion,
+                b.idBaja,
+                tb.codigoTipo AS codigoTipoBaja,
                 p.nombreProducto,
                 p.marca,
                 p.modelo,
@@ -356,6 +370,10 @@ final class ActivoRepository implements ActivoRepositoryInterface
                 ON c.idCategoria = s.idCategoria
             LEFT JOIN Ubicacion u
                 ON u.idUbicacion = a.idUbicacion
+            LEFT JOIN BajaActivo b
+                ON b.idActivo = a.idActivo
+            LEFT JOIN TipoBaja tb
+                ON tb.idTipoBaja = b.idTipoBaja
             WHERE a.idActivo = :idActivo
             LIMIT 1
             '
@@ -715,6 +733,24 @@ final class ActivoRepository implements ActivoRepositoryInterface
             WHERE idActivo = :idActivo
               AND estadoAsignacion = "ACTIVA"
               AND fechaDevolucion IS NULL
+            LIMIT 1
+            '
+        );
+
+        $statement->execute([
+            'idActivo' => $assetId,
+        ]);
+
+        return $statement->fetchColumn() !== false;
+    }
+
+    public function hasRegisteredDisposal(int $assetId): bool
+    {
+        $statement = $this->connection->prepare(
+            '
+            SELECT 1
+            FROM BajaActivo
+            WHERE idActivo = :idActivo
             LIMIT 1
             '
         );

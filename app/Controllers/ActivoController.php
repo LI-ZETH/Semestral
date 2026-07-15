@@ -154,6 +154,17 @@ final class ActivoController extends Controller
             return;
         }
 
+        if (!empty($asset['idBaja'])) {
+            Session::flash(
+                'error',
+                'La copia ya fue dada de baja y no puede editarse.'
+            );
+
+            $this->redirectToAssets(
+                (int) $asset['idProducto']
+            );
+        }
+
         $old = flash('old', []);
         $asset = array_replace($asset, $old);
 

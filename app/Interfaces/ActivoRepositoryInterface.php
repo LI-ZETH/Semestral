@@ -70,6 +70,8 @@ interface ActivoRepositoryInterface
 
     public function hasActiveAssignment(int $assetId): bool;
 
+    public function hasRegisteredDisposal(int $assetId): bool;
+
     public function insertMovement(array $data): void;
 
     public function beginTransaction(): void;
