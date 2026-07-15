@@ -2717,3 +2717,18 @@ textarea:focus-visible {
         grid-template-columns: 1fr;
     }
 }
+
+.my-equipment-card__actions {
+    margin-top: 22px;
+    padding-top: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    border-top: 1px solid var(--border);
+}
+
+.my-equipment-card__actions .button {
+    width: 100%;
+}

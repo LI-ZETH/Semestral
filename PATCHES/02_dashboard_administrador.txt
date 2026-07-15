@@ -1,0 +1,20 @@
+En app/Controllers/DashboardController.php, dentro de los módulos del Administrador,
+agrega este módulo después de Asignaciones:
+
+[
+    'number' => '04',
+    'title' => 'Solicitudes y reparaciones',
+    'description' =>
+        'Revisar necesidades, asignar reportes a técnicos '
+        . 'y supervisar reparaciones.',
+    'status' => 'Abrir módulo',
+    'url' => base_url('solicitudes/administrar'),
+],
+
+El módulo del Técnico ya debe apuntar a:
+
+'url' => base_url('reparaciones'),
+
+El módulo Solicitudes del Colaborador ya debe apuntar a:
+
+'url' => base_url('solicitudes'),

@@ -107,11 +107,26 @@
                 <?php if (!empty($assignment['observacionesEntrega'])): ?>
                     <div class="equipment-observation">
                         <strong>Observaciones de entrega</strong>
+
                         <p>
                             <?= e($assignment['observacionesEntrega']) ?>
                         </p>
                     </div>
                 <?php endif; ?>
+
+                <div class="my-equipment-card__actions">
+                    <a
+                        class="button button--small"
+                        href="<?= e(
+                            base_url(
+                                'solicitudes/reparacion/crear?activo='
+                                . $assignment['idActivo']
+                            )
+                        ) ?>"
+                    >
+                        Reportar reparación
+                    </a>
+</div>
             </div>
         </article>
     <?php endforeach; ?>

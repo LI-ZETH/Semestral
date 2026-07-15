@@ -1,0 +1,265 @@
+/* =========================================================
+   ETAPA 7B: SOLICITUDES Y REPARACIONES
+   ========================================================= */
+
+.request-section {
+    margin-top: 42px;
+}
+
+.request-table {
+    min-width: 1120px;
+}
+
+.request-admin-table {
+    min-width: 1280px;
+}
+
+.repair-admin-table {
+    min-width: 1450px;
+}
+
+.request-primary-cell {
+    min-width: 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.request-primary-cell strong {
+    color: var(--text);
+    font-weight: 800;
+}
+
+.request-primary-cell span,
+.table-muted-text,
+.table-location-detail {
+    color: var(--text-muted);
+    font-size: 0.76rem;
+    line-height: 1.45;
+}
+
+.table-location-detail {
+    margin-top: 4px;
+    display: block;
+}
+
+.priority-badge {
+    width: fit-content;
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.priority-badge--baja {
+    border-color: var(--success-border);
+    background: var(--success-background);
+    color: var(--success);
+}
+
+.priority-badge--media {
+    border-color: #bad4f5;
+    background: var(--primary-soft);
+    color: var(--primary-darker);
+}
+
+.priority-badge--alta {
+    border-color: var(--warning-border);
+    background: var(--warning-background);
+    color: var(--warning);
+}
+
+.priority-badge--urgente {
+    border-color: var(--danger-border);
+    background: var(--danger-background);
+    color: var(--danger);
+}
+
+.request-filters-grid {
+    grid-template-columns: minmax(280px, 2fr) minmax(190px, 1fr) auto;
+}
+
+.request-detail-card {
+    margin-bottom: 30px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-secondary);
+}
+
+.request-detail-card > div {
+    min-width: 0;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: var(--surface);
+}
+
+.request-detail-card > div > span {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.request-detail-card strong {
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.request-detail-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.request-detail-card__wide {
+    grid-column: 1 / -1;
+}
+
+.form-section--wide {
+    max-width: 1120px;
+}
+
+.repair-task-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.repair-task-card {
+    min-width: 0;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow-small);
+}
+
+.repair-task-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.repair-task-card__code {
+    color: var(--primary-dark);
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.repair-task-card__header h2 {
+    margin: 7px 0 3px;
+    color: var(--text);
+    font-size: 1.4rem;
+}
+
+.repair-task-card__header p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.repair-task-card__status {
+    margin-top: 20px;
+    padding: 12px 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+}
+
+.repair-task-card__body {
+    padding-block: 20px;
+    display: grid;
+    gap: 16px;
+}
+
+.repair-task-card__body > div {
+    display: grid;
+    gap: 5px;
+}
+
+.repair-task-card__body span {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.repair-task-card__body p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.repair-task-card__actions {
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+.repair-task-card__actions .button {
+    width: 100%;
+}
+
+.repair-state-help {
+    margin-top: 26px;
+    margin-bottom: 0;
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 950px) {
+    .repair-task-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .request-filters-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .request-detail-card {
+        grid-template-columns: 1fr;
+    }
+
+    .request-detail-card__wide {
+        grid-column: auto;
+    }
+
+    .request-filters-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .repair-task-card__header,
+    .repair-task-card__status {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

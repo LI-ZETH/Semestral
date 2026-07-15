@@ -59,6 +59,15 @@ final class DashboardController extends Controller
                     'status' => 'Abrir módulo',
                     'url' => base_url('asignaciones'),
                 ],
+                [
+                    'number' => '04',
+                    'title' => 'Solicitudes y reparaciones',
+                    'description' =>
+                        'Revisar necesidades, asignar reportes a técnicos '
+                        . 'y supervisar reparaciones.',
+                    'status' => 'Abrir módulo',
+                    'url' => base_url('solicitudes/administrar'),
+                ],
             ],
 
             Roles::TECNICO => [

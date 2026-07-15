@@ -1,120 +1,86 @@
-1. En routes/web.php agrega junto a los demás use:
+En routes/web.php agrega junto a los demás use:
 
-use App\Controllers\AsignacionController;
-use App\Controllers\UbicacionController;
+use App\Controllers\SolicitudController;
+use App\Controllers\ReparacionController;
 
-2. Busca y ELIMINA estas rutas antiguas, porque apuntan al placeholder:
+ELIMINA las rutas provisionales que usan ModuloController:
+
+$router->get('/reparaciones', [ModuloController::class, 'repairs']);
+$router->get('/reparaciones', [ModuloController::class, 'requests']);
+
+Agrega las rutas nuevas:
 
 $router->get(
-    '/asignaciones',
-    [
-        ModuloController::class,
-        'assignments',
-    ]
+    '/solicitudes',
+    [SolicitudController::class, 'index']
 );
 
 $router->get(
-    '/mis-equipos',
-    [
-        ModuloController::class,
-        'myEquipment',
-    ]
-);
-
-3. Agrega estas rutas al final:
-
-$router->get(
-    '/asignaciones',
-    [
-        AsignacionController::class,
-        'index',
-    ]
-);
-
-$router->get(
-    '/asignaciones/crear',
-    [
-        AsignacionController::class,
-        'create',
-    ]
+    '/solicitudes/crear',
+    [SolicitudController::class, 'create']
 );
 
 $router->post(
-    '/asignaciones/guardar',
-    [
-        AsignacionController::class,
-        'store',
-    ]
+    '/solicitudes/guardar',
+    [SolicitudController::class, 'store']
 );
 
 $router->get(
-    '/asignaciones/devolver',
-    [
-        AsignacionController::class,
-        'returnForm',
-    ]
+    '/solicitudes/reparacion/crear',
+    [SolicitudController::class, 'repairCreate']
 );
 
 $router->post(
-    '/asignaciones/devolver',
-    [
-        AsignacionController::class,
-        'storeReturn',
-    ]
-);
-
-$router->get(
-    '/mis-equipos',
-    [
-        AsignacionController::class,
-        'myEquipment',
-    ]
-);
-
-$router->get(
-    '/ubicaciones',
-    [
-        UbicacionController::class,
-        'index',
-    ]
-);
-
-$router->get(
-    '/ubicaciones/crear',
-    [
-        UbicacionController::class,
-        'create',
-    ]
+    '/solicitudes/reparacion/guardar',
+    [SolicitudController::class, 'repairStore']
 );
 
 $router->post(
-    '/ubicaciones/guardar',
-    [
-        UbicacionController::class,
-        'store',
-    ]
+    '/solicitudes/cancelar',
+    [SolicitudController::class, 'cancelNeed']
+);
+
+$router->post(
+    '/solicitudes/reparacion/cancelar',
+    [SolicitudController::class, 'cancelRepair']
 );
 
 $router->get(
-    '/ubicaciones/editar',
-    [
-        UbicacionController::class,
-        'edit',
-    ]
+    '/solicitudes/administrar',
+    [SolicitudController::class, 'administration']
+);
+
+$router->get(
+    '/solicitudes/revisar',
+    [SolicitudController::class, 'review']
 );
 
 $router->post(
-    '/ubicaciones/actualizar',
-    [
-        UbicacionController::class,
-        'update',
-    ]
+    '/solicitudes/revisar',
+    [SolicitudController::class, 'updateReview']
+);
+
+$router->get(
+    '/solicitudes/reparacion/asignar',
+    [SolicitudController::class, 'assignRepair']
 );
 
 $router->post(
-    '/ubicaciones/estado',
-    [
-        UbicacionController::class,
-        'changeState',
-    ]
+    '/solicitudes/reparacion/asignar',
+    [SolicitudController::class, 'storeRepairAssignment']
+);
+
+$router->get(
+    '/reparaciones',
+    [ReparacionController::class, 'index']
+);
+
+$router->get(
+    '/reparaciones/gestionar',
+    [ReparacionController::class, 'manage']
+);
+
+$router->post(
+    '/reparaciones/actualizar',
+    [ReparacionController::class, 'update']
 );

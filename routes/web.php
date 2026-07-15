@@ -15,6 +15,8 @@ use App\Controllers\ProductoController;
 use App\Controllers\ActivoController;
 use App\Controllers\AsignacionController;
 use App\Controllers\UbicacionController;
+use App\Controllers\SolicitudController;
+use App\Controllers\ReparacionController;
 
 /**
  * @var Router $router
@@ -163,15 +165,6 @@ $router->get(
         'product',
     ]
 );
-
-$router->get(
-    '/reparaciones',
-    [
-        ModuloController::class,
-        'repairs',
-    ]
-);
-
 
 $router->get(
     '/solicitudes',
@@ -465,4 +458,80 @@ $router->post(
         UbicacionController::class,
         'changeState',
     ]
+);
+
+
+$router->get(
+    '/solicitudes',
+    [SolicitudController::class, 'index']
+);
+
+$router->get(
+    '/solicitudes/crear',
+    [SolicitudController::class, 'create']
+);
+
+$router->post(
+    '/solicitudes/guardar',
+    [SolicitudController::class, 'store']
+);
+
+$router->get(
+    '/solicitudes/reparacion/crear',
+    [SolicitudController::class, 'repairCreate']
+);
+
+$router->post(
+    '/solicitudes/reparacion/guardar',
+    [SolicitudController::class, 'repairStore']
+);
+
+$router->post(
+    '/solicitudes/cancelar',
+    [SolicitudController::class, 'cancelNeed']
+);
+
+$router->post(
+    '/solicitudes/reparacion/cancelar',
+    [SolicitudController::class, 'cancelRepair']
+);
+
+$router->get(
+    '/solicitudes/administrar',
+    [SolicitudController::class, 'administration']
+);
+
+$router->get(
+    '/solicitudes/revisar',
+    [SolicitudController::class, 'review']
+);
+
+$router->post(
+    '/solicitudes/revisar',
+    [SolicitudController::class, 'updateReview']
+);
+
+$router->get(
+    '/solicitudes/reparacion/asignar',
+    [SolicitudController::class, 'assignRepair']
+);
+
+$router->post(
+    '/solicitudes/reparacion/asignar',
+    [SolicitudController::class, 'storeRepairAssignment']
+);
+
+$router->get(
+    '/reparaciones',
+    [ReparacionController::class, 'index']
+);
+
+$router->get(
+    '/reparaciones/gestionar',
+    [ReparacionController::class, 'manage']
+);
+
+$router->post(
+    '/reparaciones/actualizar',
+    [ReparacionController::class, 'update']
 );
