@@ -44,6 +44,38 @@ $router->get(
 );
 
 $router->get(
+    '/funcionalidades',
+    [
+        HomeController::class,
+        'features',
+    ]
+);
+
+$router->get(
+    '/noticias',
+    [
+        HomeController::class,
+        'news',
+    ]
+);
+
+$router->get(
+    '/nosotros',
+    [
+        HomeController::class,
+        'about',
+    ]
+);
+
+$router->get(
+    '/ayuda',
+    [
+        HomeController::class,
+        'help',
+    ]
+);
+
+$router->get(
     '/configuracion/primer-administrador',
     [
         AuthController::class,

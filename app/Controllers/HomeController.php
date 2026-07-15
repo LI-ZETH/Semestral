@@ -19,17 +19,14 @@ final class HomeController extends Controller
                 $connection,
                 'Categoria'
             ),
-
             'subcategorias' => $this->countActiveRecords(
                 $connection,
                 'Subcategoria'
             ),
-
             'productos' => $this->countActiveRecords(
                 $connection,
                 'Producto'
             ),
-
             'activos' => $this->countActiveRecords(
                 $connection,
                 'Activo'
@@ -37,11 +34,66 @@ final class HomeController extends Controller
         ];
 
         $this->view(
-            'home/index',
+            'public/home',
             [
                 'title' => 'Inicio',
+                'activePage' => 'inicio',
+                'bodyClass' => 'public-home',
                 'statistics' => $statistics,
-            ]
+            ],
+            'public'
+        );
+    }
+
+    public function features(): void
+    {
+        $this->renderPublicPage(
+            'public/features',
+            'Funcionalidades',
+            'funcionalidades'
+        );
+    }
+
+    public function news(): void
+    {
+        $this->renderPublicPage(
+            'public/news',
+            'Noticias',
+            'noticias'
+        );
+    }
+
+    public function about(): void
+    {
+        $this->renderPublicPage(
+            'public/about',
+            'Nosotros',
+            'nosotros'
+        );
+    }
+
+    public function help(): void
+    {
+        $this->renderPublicPage(
+            'public/help',
+            'Manual de usuario',
+            'ayuda'
+        );
+    }
+
+    private function renderPublicPage(
+        string $view,
+        string $title,
+        string $activePage
+    ): void {
+        $this->view(
+            $view,
+            [
+                'title' => $title,
+                'activePage' => $activePage,
+                'bodyClass' => 'public-content-page',
+            ],
+            'public'
         );
     }
 
