@@ -13,6 +13,8 @@ use App\Controllers\CategoriaController;
 use App\Controllers\SubcategoriaController;
 use App\Controllers\ProductoController;
 use App\Controllers\ActivoController;
+use App\Controllers\AsignacionController;
+use App\Controllers\UbicacionController;
 
 /**
  * @var Router $router
@@ -163,14 +165,6 @@ $router->get(
 );
 
 $router->get(
-    '/asignaciones',
-    [
-        ModuloController::class,
-        'assignments',
-    ]
-);
-
-$router->get(
     '/reparaciones',
     [
         ModuloController::class,
@@ -178,13 +172,6 @@ $router->get(
     ]
 );
 
-$router->get(
-    '/mis-equipos',
-    [
-        ModuloController::class,
-        'myEquipment',
-    ]
-);
 
 $router->get(
     '/solicitudes',
@@ -380,6 +367,102 @@ $router->post(
     '/inventario/activos/estado',
     [
         ActivoController::class,
+        'changeState',
+    ]
+);
+
+$router->get(
+    '/asignaciones',
+    [
+        AsignacionController::class,
+        'index',
+    ]
+);
+
+$router->get(
+    '/asignaciones/crear',
+    [
+        AsignacionController::class,
+        'create',
+    ]
+);
+
+$router->post(
+    '/asignaciones/guardar',
+    [
+        AsignacionController::class,
+        'store',
+    ]
+);
+
+$router->get(
+    '/asignaciones/devolver',
+    [
+        AsignacionController::class,
+        'returnForm',
+    ]
+);
+
+$router->post(
+    '/asignaciones/devolver',
+    [
+        AsignacionController::class,
+        'storeReturn',
+    ]
+);
+
+$router->get(
+    '/mis-equipos',
+    [
+        AsignacionController::class,
+        'myEquipment',
+    ]
+);
+
+$router->get(
+    '/ubicaciones',
+    [
+        UbicacionController::class,
+        'index',
+    ]
+);
+
+$router->get(
+    '/ubicaciones/crear',
+    [
+        UbicacionController::class,
+        'create',
+    ]
+);
+
+$router->post(
+    '/ubicaciones/guardar',
+    [
+        UbicacionController::class,
+        'store',
+    ]
+);
+
+$router->get(
+    '/ubicaciones/editar',
+    [
+        UbicacionController::class,
+        'edit',
+    ]
+);
+
+$router->post(
+    '/ubicaciones/actualizar',
+    [
+        UbicacionController::class,
+        'update',
+    ]
+);
+
+$router->post(
+    '/ubicaciones/estado',
+    [
+        UbicacionController::class,
         'changeState',
     ]
 );

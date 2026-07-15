@@ -1,53 +1,120 @@
-En routes/web.php agrega junto a los demás use:
+1. En routes/web.php agrega junto a los demás use:
 
-use App\Controllers\ActivoController;
+use App\Controllers\AsignacionController;
+use App\Controllers\UbicacionController;
 
-Agrega al final del archivo:
+2. Busca y ELIMINA estas rutas antiguas, porque apuntan al placeholder:
 
 $router->get(
-    '/inventario/activos',
+    '/asignaciones',
     [
-        ActivoController::class,
+        ModuloController::class,
+        'assignments',
+    ]
+);
+
+$router->get(
+    '/mis-equipos',
+    [
+        ModuloController::class,
+        'myEquipment',
+    ]
+);
+
+3. Agrega estas rutas al final:
+
+$router->get(
+    '/asignaciones',
+    [
+        AsignacionController::class,
         'index',
     ]
 );
 
 $router->get(
-    '/inventario/activos/crear',
+    '/asignaciones/crear',
     [
-        ActivoController::class,
+        AsignacionController::class,
         'create',
     ]
 );
 
 $router->post(
-    '/inventario/activos/guardar',
+    '/asignaciones/guardar',
     [
-        ActivoController::class,
+        AsignacionController::class,
         'store',
     ]
 );
 
 $router->get(
-    '/inventario/activos/editar',
+    '/asignaciones/devolver',
     [
-        ActivoController::class,
+        AsignacionController::class,
+        'returnForm',
+    ]
+);
+
+$router->post(
+    '/asignaciones/devolver',
+    [
+        AsignacionController::class,
+        'storeReturn',
+    ]
+);
+
+$router->get(
+    '/mis-equipos',
+    [
+        AsignacionController::class,
+        'myEquipment',
+    ]
+);
+
+$router->get(
+    '/ubicaciones',
+    [
+        UbicacionController::class,
+        'index',
+    ]
+);
+
+$router->get(
+    '/ubicaciones/crear',
+    [
+        UbicacionController::class,
+        'create',
+    ]
+);
+
+$router->post(
+    '/ubicaciones/guardar',
+    [
+        UbicacionController::class,
+        'store',
+    ]
+);
+
+$router->get(
+    '/ubicaciones/editar',
+    [
+        UbicacionController::class,
         'edit',
     ]
 );
 
 $router->post(
-    '/inventario/activos/actualizar',
+    '/ubicaciones/actualizar',
     [
-        ActivoController::class,
+        UbicacionController::class,
         'update',
     ]
 );
 
 $router->post(
-    '/inventario/activos/estado',
+    '/ubicaciones/estado',
     [
-        ActivoController::class,
+        UbicacionController::class,
         'changeState',
     ]
 );

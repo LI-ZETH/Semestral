@@ -293,6 +293,24 @@
 
                         <td>
                             <div class="table-actions">
+                                
+                            <?php if (
+                                (bool) $asset['activo']
+                                && $asset['codigoEstado'] === 'EN_INVENTARIO'
+                            ): ?>
+                                <a
+                                    class="button button--small"
+                                    href="<?= e(
+                                        base_url(
+                                            'asignaciones/crear?activo='
+                                            . $asset['idActivo']
+                                        )
+                                    ) ?>"
+                                >
+                                    Asignar
+                                </a>
+                            <?php endif; ?>
+                            
                                 <a
                                     class="button button--small button--secondary"
                                     href="<?= e(
