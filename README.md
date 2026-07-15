@@ -815,9 +815,6 @@ El proyecto implementa:
 
 - Repositorio: `https://github.com/LI-ZETH/Semestral`
 - Rama final: `main`
-- Respaldo de la base de datos: **PENDIENTE DE COLOCAR ENLACE**
-- Video de demostración: **PENDIENTE DE COLOCAR ENLACE**
-- Documento UML/manual: **PENDIENTE DE COLOCAR ENLACE O RUTA**
 
 ## Publicación en la rama principal
 
@@ -854,18 +851,6 @@ No eliminar la rama de trabajo hasta confirmar que la versión de `main` abre co
 
 Proyecto desarrollado con fines educativos. Los nombres de marcas y productos utilizados en los datos demostrativos pertenecen a sus respectivos propietarios y se incluyen únicamente como ejemplos de inventario.
 
-## Generar el ZIP limpio de entrega
+## Alumnos
 
-Después de exportar la base actualizada, ejecutar desde la raíz:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts\package_release.ps1
-```
-
-El script crea:
-
-```text
-TrackiT_Entrega_Final.zip
-```
-
-fuera de la carpeta del proyecto y excluye `.git`, configuraciones privadas, llaves PEM, logs y códigos QR almacenados en caché.
+Genesis Luo, Guillermo Mas, Winston Franco y Joseph Córdoba.
