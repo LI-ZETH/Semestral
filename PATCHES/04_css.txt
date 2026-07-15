@@ -1,265 +1,236 @@
 /* =========================================================
-   ETAPA 7B: SOLICITUDES Y REPARACIONES
+   ETAPA 7C: PERFIL PERSONAL
    ========================================================= */
 
-.request-section {
-    margin-top: 42px;
-}
-
-.request-table {
-    min-width: 1120px;
-}
-
-.request-admin-table {
-    min-width: 1280px;
-}
-
-.repair-admin-table {
-    min-width: 1450px;
-}
-
-.request-primary-cell {
-    min-width: 230px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.request-primary-cell strong {
-    color: var(--text);
-    font-weight: 800;
-}
-
-.request-primary-cell span,
-.table-muted-text,
-.table-location-detail {
-    color: var(--text-muted);
-    font-size: 0.76rem;
-    line-height: 1.45;
-}
-
-.table-location-detail {
-    margin-top: 4px;
-    display: block;
-}
-
-.priority-badge {
-    width: fit-content;
-    padding: 6px 10px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    font-size: 0.7rem;
-    font-weight: 900;
-    white-space: nowrap;
-}
-
-.priority-badge--baja {
-    border-color: var(--success-border);
-    background: var(--success-background);
-    color: var(--success);
-}
-
-.priority-badge--media {
-    border-color: #bad4f5;
-    background: var(--primary-soft);
-    color: var(--primary-darker);
-}
-
-.priority-badge--alta {
-    border-color: var(--warning-border);
-    background: var(--warning-background);
-    color: var(--warning);
-}
-
-.priority-badge--urgente {
-    border-color: var(--danger-border);
-    background: var(--danger-background);
-    color: var(--danger);
-}
-
-.request-filters-grid {
-    grid-template-columns: minmax(280px, 2fr) minmax(190px, 1fr) auto;
-}
-
-.request-detail-card {
-    margin-bottom: 30px;
-    padding: 24px;
+.profile-layout {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface-secondary);
-}
-
-.request-detail-card > div {
-    min-width: 0;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    border: 1px solid var(--border);
-    border-radius: 11px;
-    background: var(--surface);
-}
-
-.request-detail-card > div > span {
-    color: var(--text-muted);
-    font-size: 0.7rem;
-    font-weight: 850;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.request-detail-card strong {
-    color: var(--text);
-    line-height: 1.5;
-}
-
-.request-detail-card p {
-    margin: 0;
-    color: var(--text-secondary);
-    line-height: 1.7;
-}
-
-.request-detail-card__wide {
-    grid-column: 1 / -1;
-}
-
-.form-section--wide {
-    max-width: 1120px;
-}
-
-.repair-task-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(260px, 0.75fr) minmax(0, 2fr);
     gap: 22px;
+    align-items: start;
 }
 
-.repair-task-card {
-    min-width: 0;
-    padding: 26px;
-    display: flex;
-    flex-direction: column;
+.profile-summary-card,
+.profile-information-card {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--surface);
     box-shadow: var(--shadow-small);
 }
 
-.repair-task-card__header {
+.profile-summary-card {
+    position: sticky;
+    top: 125px;
+    padding: 32px 25px;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 18px;
+    flex-direction: column;
+    align-items: center;
+    gap: 19px;
+    text-align: center;
 }
 
-.repair-task-card__code {
+.profile-avatar {
+    width: 112px;
+    height: 112px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border-primary);
+    border-radius: 32px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-soft),
+            var(--surface-secondary)
+        );
     color: var(--primary-dark);
-    font-size: 0.75rem;
-    font-weight: 900;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
+    font-size: 2.5rem;
+    font-weight: 950;
+    letter-spacing: -0.05em;
+    box-shadow: var(--shadow-small);
 }
 
-.repair-task-card__header h2 {
-    margin: 7px 0 3px;
+.profile-summary-card__content {
+    min-width: 0;
+}
+
+.profile-summary-card__content h2 {
+    margin: 14px 0 5px;
     color: var(--text);
-    font-size: 1.4rem;
+    font-size: 1.55rem;
+    letter-spacing: -0.035em;
 }
 
-.repair-task-card__header p {
+.profile-summary-card__content p {
     margin: 0;
     color: var(--text-muted);
+    font-size: 0.9rem;
 }
 
-.repair-task-card__status {
-    margin-top: 20px;
-    padding: 12px 0 18px;
+.profile-information-card {
+    grid-column: 2;
+    padding: 29px;
+}
+
+.profile-section-heading {
+    margin-bottom: 23px;
+    padding-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 14px;
+    gap: 18px;
     border-bottom: 1px solid var(--border);
-    color: var(--text-muted);
-    font-size: 0.78rem;
 }
 
-.repair-task-card__body {
-    padding-block: 20px;
+.profile-section-heading h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.45rem;
+    letter-spacing: -0.025em;
+}
+
+.profile-detail-grid {
+    margin: 0;
     display: grid;
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
 }
 
-.repair-task-card__body > div {
-    display: grid;
-    gap: 5px;
+.profile-detail-grid > div {
+    min-width: 0;
+    padding: 15px 17px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: var(--surface-secondary);
 }
 
-.repair-task-card__body span {
+.profile-detail-grid__full {
+    grid-column: 1 / -1;
+}
+
+.profile-detail-grid dt {
+    margin-bottom: 5px;
     color: var(--text-muted);
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 850;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
 }
 
-.repair-task-card__body p {
+.profile-detail-grid dd {
     margin: 0;
     color: var(--text-secondary);
+    font-size: 0.91rem;
+    font-weight: 700;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.profile-warning {
+    padding: 16px 18px;
+    border: 1px solid var(--warning-border);
+    border-radius: 11px;
+    background: var(--warning-background);
+    color: var(--warning);
+    font-size: 0.9rem;
     line-height: 1.6;
 }
 
-.repair-task-card__actions {
-    margin-top: auto;
-    padding-top: 4px;
+.profile-history-card {
+    overflow: hidden;
 }
 
-.repair-task-card__actions .button {
-    width: 100%;
+.profile-history-table {
+    min-width: 760px;
 }
 
-.repair-state-help {
-    margin-top: 26px;
-    margin-bottom: 0;
+.profile-empty-state {
+    padding: 28px 20px;
 }
 
-.button:disabled {
-    cursor: not-allowed;
-    opacity: 0.55;
-    transform: none;
-    box-shadow: none;
+.profile-empty-state p {
+    margin: 0;
 }
 
-@media (max-width: 950px) {
-    .repair-task-grid {
+.profile-form-section {
+    max-width: 1040px;
+}
+
+.profile-password-section {
+    max-width: 760px;
+}
+
+.password-requirements {
+    margin-top: 25px;
+    padding: 17px 19px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-secondary);
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+.password-requirements strong {
+    grid-column: 1 / -1;
+    color: var(--text-secondary);
+}
+
+.password-requirements span::before {
+    content: "✓";
+    margin-right: 7px;
+    color: var(--success);
+    font-weight: 900;
+}
+
+.password-error-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+@media (max-width: 940px) {
+    .profile-layout {
         grid-template-columns: 1fr;
     }
 
-    .request-filters-grid {
-        grid-template-columns: 1fr 1fr;
+    .profile-summary-card {
+        position: static;
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    .profile-avatar {
+        width: 86px;
+        height: 86px;
+        flex-shrink: 0;
+        border-radius: 24px;
+        font-size: 2rem;
+    }
+
+    .profile-information-card {
+        grid-column: 1;
     }
 }
 
-@media (max-width: 700px) {
-    .request-detail-card {
-        grid-template-columns: 1fr;
-    }
-
-    .request-detail-card__wide {
-        grid-column: auto;
-    }
-
-    .request-filters-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .repair-task-card__header,
-    .repair-task-card__status {
-        align-items: flex-start;
+@media (max-width: 650px) {
+    .profile-summary-card {
         flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-information-card {
+        padding: 22px 18px;
+    }
+
+    .profile-detail-grid,
+    .password-requirements {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-detail-grid__full,
+    .password-requirements strong {
+        grid-column: auto;
     }
 }

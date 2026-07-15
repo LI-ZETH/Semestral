@@ -31,6 +31,10 @@ use App\Core\Auth;
                 Panel
             </a>
 
+            <a href="<?= e(base_url('perfil')) ?>">
+                Mi perfil
+            </a>
+
             <?php if (
                 Auth::can(
                     \App\Core\Permissions::USUARIOS_VER

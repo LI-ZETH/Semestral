@@ -1,86 +1,57 @@
-En routes/web.php agrega junto a los demás use:
+ETAPA 7C — RUTAS DEL PERFIL
 
-use App\Controllers\SolicitudController;
-use App\Controllers\ReparacionController;
+1. Agrega junto a los demás use:
 
-ELIMINA las rutas provisionales que usan ModuloController:
+use App\Controllers\PerfilController;
 
-$router->get('/reparaciones', [ModuloController::class, 'repairs']);
-$router->get('/reparaciones', [ModuloController::class, 'requests']);
-
-Agrega las rutas nuevas:
+2. Elimina la ruta provisional que apunta a ModuloController::profile:
 
 $router->get(
-    '/solicitudes',
-    [SolicitudController::class, 'index']
+    '/perfil',
+    [
+        ModuloController::class,
+        'profile',
+    ]
+);
+
+3. Agrega estas rutas:
+
+$router->get(
+    '/perfil',
+    [
+        PerfilController::class,
+        'show',
+    ]
 );
 
 $router->get(
-    '/solicitudes/crear',
-    [SolicitudController::class, 'create']
+    '/perfil/editar',
+    [
+        PerfilController::class,
+        'edit',
+    ]
 );
 
 $router->post(
-    '/solicitudes/guardar',
-    [SolicitudController::class, 'store']
+    '/perfil/actualizar',
+    [
+        PerfilController::class,
+        'update',
+    ]
 );
 
 $router->get(
-    '/solicitudes/reparacion/crear',
-    [SolicitudController::class, 'repairCreate']
+    '/perfil/contrasena',
+    [
+        PerfilController::class,
+        'passwordForm',
+    ]
 );
 
 $router->post(
-    '/solicitudes/reparacion/guardar',
-    [SolicitudController::class, 'repairStore']
-);
-
-$router->post(
-    '/solicitudes/cancelar',
-    [SolicitudController::class, 'cancelNeed']
-);
-
-$router->post(
-    '/solicitudes/reparacion/cancelar',
-    [SolicitudController::class, 'cancelRepair']
-);
-
-$router->get(
-    '/solicitudes/administrar',
-    [SolicitudController::class, 'administration']
-);
-
-$router->get(
-    '/solicitudes/revisar',
-    [SolicitudController::class, 'review']
-);
-
-$router->post(
-    '/solicitudes/revisar',
-    [SolicitudController::class, 'updateReview']
-);
-
-$router->get(
-    '/solicitudes/reparacion/asignar',
-    [SolicitudController::class, 'assignRepair']
-);
-
-$router->post(
-    '/solicitudes/reparacion/asignar',
-    [SolicitudController::class, 'storeRepairAssignment']
-);
-
-$router->get(
-    '/reparaciones',
-    [ReparacionController::class, 'index']
-);
-
-$router->get(
-    '/reparaciones/gestionar',
-    [ReparacionController::class, 'manage']
-);
-
-$router->post(
-    '/reparaciones/actualizar',
-    [ReparacionController::class, 'update']
+    '/perfil/contrasena',
+    [
+        PerfilController::class,
+        'changePassword',
+    ]
 );

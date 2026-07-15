@@ -17,6 +17,7 @@ use App\Controllers\AsignacionController;
 use App\Controllers\UbicacionController;
 use App\Controllers\SolicitudController;
 use App\Controllers\ReparacionController;
+use App\Controllers\PerfilController;
 
 /**
  * @var Router $router
@@ -171,14 +172,6 @@ $router->get(
     [
         ModuloController::class,
         'requests',
-    ]
-);
-
-$router->get(
-    '/perfil',
-    [
-        ModuloController::class,
-        'profile',
     ]
 );
 
@@ -534,4 +527,44 @@ $router->get(
 $router->post(
     '/reparaciones/actualizar',
     [ReparacionController::class, 'update']
+);
+
+$router->get(
+    '/perfil',
+    [
+        PerfilController::class,
+        'show',
+    ]
+);
+
+$router->get(
+    '/perfil/editar',
+    [
+        PerfilController::class,
+        'edit',
+    ]
+);
+
+$router->post(
+    '/perfil/actualizar',
+    [
+        PerfilController::class,
+        'update',
+    ]
+);
+
+$router->get(
+    '/perfil/contrasena',
+    [
+        PerfilController::class,
+        'passwordForm',
+    ]
+);
+
+$router->post(
+    '/perfil/contrasena',
+    [
+        PerfilController::class,
+        'changePassword',
+    ]
 );
