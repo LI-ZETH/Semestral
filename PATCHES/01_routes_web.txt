@@ -1,0 +1,35 @@
+Agregar arriba de routes/web.php:
+
+use App\Controllers\ProductoController;
+
+Agregar al final:
+
+$router->get(
+    '/inventario/productos',
+    [ProductoController::class, 'index']
+);
+
+$router->get(
+    '/inventario/productos/crear',
+    [ProductoController::class, 'create']
+);
+
+$router->post(
+    '/inventario/productos/guardar',
+    [ProductoController::class, 'store']
+);
+
+$router->get(
+    '/inventario/productos/editar',
+    [ProductoController::class, 'edit']
+);
+
+$router->post(
+    '/inventario/productos/actualizar',
+    [ProductoController::class, 'update']
+);
+
+$router->post(
+    '/inventario/productos/estado',
+    [ProductoController::class, 'changeState']
+);

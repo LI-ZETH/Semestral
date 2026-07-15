@@ -1,0 +1,15 @@
+Archivo: app/Views/inventario/subcategories/index.php
+
+Dentro de <div class="table-actions">, antes del botón Editar, agregar:
+
+<a
+    class="button button--small button--secondary"
+    href="<?= e(
+        base_url(
+            'inventario/productos?subcategoria='
+            . $subcategory['idSubcategoria']
+        )
+    ) ?>"
+>
+    Productos
+</a>

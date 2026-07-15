@@ -1,0 +1,5 @@
+Agregar a .gitignore:
+
+# Imágenes de productos
+/public/uploads/productos/*
+!/public/uploads/productos/.gitkeep

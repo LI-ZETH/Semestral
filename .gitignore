@@ -35,3 +35,7 @@ Thumbs.db
 # Imágenes de subcategorías
 /public/uploads/subcategorias/*
 !/public/uploads/subcategorias/.gitkeep
+
+# Imágenes de productos
+/public/uploads/productos/*
+!/public/uploads/productos/.gitkeep

@@ -1,14 +1,16 @@
 <section class="management-header">
     <div>
         <span class="section-heading__eyebrow">
-            <?= e($category['nombreCategoria']) ?>
+            <?= e($subcategory['nombreCategoria']) ?>
+            ·
+            <?= e($subcategory['nombreSubcategoria']) ?>
         </span>
 
-        <h1>Administrar subcategorías</h1>
+        <h1>Administrar productos</h1>
 
         <p>
-            Organiza los tipos de productos que pertenecen
-            a esta categoría.
+            Registra los modelos generales que pertenecen a esta
+            subcategoría y consulta cuántas copias tiene cada uno.
         </p>
     </div>
 
@@ -16,22 +18,37 @@
         <a
             class="button button--secondary"
             href="<?= e(
-                base_url('inventario/categorias')
+                base_url(
+                    'inventario/subcategorias?categoria='
+                    . $subcategory['idCategoria']
+                )
             ) ?>"
         >
-            Volver a categorías
+            Volver a subcategorías
+        </a>
+
+        <a
+            class="button button--secondary"
+            href="<?= e(
+                base_url(
+                    'inventario/subcategoria?id='
+                    . $subcategory['idSubcategoria']
+                )
+            ) ?>"
+        >
+            Ver inventario
         </a>
 
         <a
             class="button"
             href="<?= e(
                 base_url(
-                    'inventario/subcategorias/crear?categoria='
-                    . $category['idCategoria']
+                    'inventario/productos/crear?subcategoria='
+                    . $subcategory['idSubcategoria']
                 )
             ) ?>"
         >
-            Registrar subcategoría
+            Registrar producto
         </a>
     </div>
 </section>
@@ -50,53 +67,47 @@
 
 <div class="table-card">
     <div class="table-responsive">
-        <table class="data-table">
+        <table class="data-table product-management-table">
             <thead>
                 <tr>
-                    <th>Subcategoría</th>
-                    <th>Productos</th>
-                    <th>Activos</th>
+                    <th>Producto</th>
+                    <th>Tipo</th>
+                    <th>Vida útil</th>
+                    <th>Copias</th>
+                    <th>Disponibles</th>
+                    <th>Asignadas</th>
+                    <th>Servicio técnico</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
 
             <tbody>
-                <?php if ($subcategories === []): ?>
+                <?php if ($products === []): ?>
                     <tr>
-                        <td
-                            class="table-empty"
-                            colspan="5"
-                        >
-                            No existen subcategorías registradas.
+                        <td class="table-empty" colspan="9">
+                            No existen productos registrados en esta
+                            subcategoría.
                         </td>
                     </tr>
                 <?php endif; ?>
 
-                <?php foreach (
-                    $subcategories as $subcategory
-                ): ?>
+                <?php foreach ($products as $product): ?>
                     <tr>
                         <td>
-                            <div class="subcategory-table-cell">
-                                <?php if (
-                                    !empty($subcategory['imagen'])
-                                ): ?>
+                            <div class="product-table-cell">
+                                <?php if (!empty($product['imagen'])): ?>
                                     <img
                                         src="<?= e(
-                                            asset_url(
-                                                $subcategory['imagen']
-                                            )
+                                            asset_url($product['imagen'])
                                         ) ?>"
                                         alt=""
                                     >
                                 <?php else: ?>
-                                    <span class="subcategory-initial">
+                                    <span class="product-initial">
                                         <?= e(
                                             mb_substr(
-                                                $subcategory[
-                                                    'nombreSubcategoria'
-                                                ],
+                                                $product['nombreProducto'],
                                                 0,
                                                 1
                                             )
@@ -106,19 +117,16 @@
 
                                 <div>
                                     <strong>
-                                        <?= e(
-                                            $subcategory[
-                                                'nombreSubcategoria'
-                                            ]
-                                        ) ?>
+                                        <?= e($product['nombreProducto']) ?>
                                     </strong>
 
                                     <small>
                                         <?= e(
-                                            $subcategory[
-                                                'descripcion'
-                                            ]
-                                            ?? 'Sin descripción'
+                                            trim(
+                                                ($product['marca'] ?? '')
+                                                . ' '
+                                                . ($product['modelo'] ?? '')
+                                            ) ?: 'Sin marca o modelo'
                                         ) ?>
                                     </small>
                                 </div>
@@ -126,54 +134,60 @@
                         </td>
 
                         <td>
-                            <?= e(
-                                $subcategory['totalProductos']
-                            ) ?>
+                            <span class="badge badge--role">
+                                <?= e(
+                                    match ($product['tipoProducto']) {
+                                        'SOFTWARE' => 'Software',
+                                        'LICENCIA' => 'Licencia',
+                                        default => 'Hardware',
+                                    }
+                                ) ?>
+                            </span>
                         </td>
 
                         <td>
-                            <?= e(
-                                $subcategory['totalActivos']
-                            ) ?>
+                            <?= $product['vidaUtilMeses'] !== null
+                                ? e($product['vidaUtilMeses']) . ' meses'
+                                : 'No definida' ?>
                         </td>
 
+                        <td><?= e($product['totalActivos']) ?></td>
+                        <td><?= e($product['disponibles']) ?></td>
+                        <td><?= e($product['asignados']) ?></td>
+                        <td><?= e($product['enServicioTecnico']) ?></td>
+
                         <td>
-                            <?php if (
-                                (bool) $subcategory['activo']
-                            ): ?>
+                            <?php if ((bool) $product['activo']): ?>
                                 <span class="badge badge--active">
-                                    Activa
+                                    Activo
                                 </span>
                             <?php else: ?>
                                 <span class="badge badge--inactive">
-                                    Inactiva
+                                    Inactivo
                                 </span>
                             <?php endif; ?>
                         </td>
 
                         <td>
                             <div class="table-actions">
+                                <a
+                                    class="button button--small button--secondary"
+                                    href="<?= e(
+                                        base_url(
+                                            'inventario/producto?id='
+                                            . $product['idProducto']
+                                        )
+                                    ) ?>"
+                                >
+                                    Ver copias
+                                </a>
 
                                 <a
                                     class="button button--small button--secondary"
                                     href="<?= e(
                                         base_url(
-                                            'inventario/productos?subcategoria='
-                                            . $subcategory['idSubcategoria']
-                                        )
-                                    ) ?>"
-                                >
-                                    Productos
-                                </a>
-                                <a
-                                    class="button button--small
-                                        button--secondary"
-                                    href="<?= e(
-                                        base_url(
-                                            'inventario/subcategorias/editar?id='
-                                            . $subcategory[
-                                                'idSubcategoria'
-                                            ]
+                                            'inventario/productos/editar?id='
+                                            . $product['idProducto']
                                         )
                                     ) ?>"
                                 >
@@ -185,7 +199,7 @@
                                     method="POST"
                                     action="<?= e(
                                         base_url(
-                                            'inventario/subcategorias/estado'
+                                            'inventario/productos/estado'
                                         )
                                     ) ?>"
                                 >
@@ -193,38 +207,34 @@
 
                                     <input
                                         type="hidden"
-                                        name="idSubcategoria"
-                                        value="<?= e(
-                                            $subcategory[
-                                                'idSubcategoria'
-                                            ]
-                                        ) ?>"
+                                        name="idProducto"
+                                        value="<?= e($product['idProducto']) ?>"
                                     >
 
                                     <input
                                         type="hidden"
-                                        name="idCategoria"
+                                        name="idSubcategoria"
                                         value="<?= e(
-                                            $category['idCategoria']
+                                            $subcategory['idSubcategoria']
                                         ) ?>"
                                     >
 
                                     <input
                                         type="hidden"
                                         name="activo"
-                                        value="<?= (bool) $subcategory['activo']
+                                        value="<?= (bool) $product['activo']
                                             ? '0'
                                             : '1' ?>"
                                     >
 
                                     <button
                                         class="button button--small
-                                            <?= (bool) $subcategory['activo']
+                                            <?= (bool) $product['activo']
                                                 ? 'button--danger'
                                                 : '' ?>"
                                         type="submit"
                                     >
-                                        <?= (bool) $subcategory['activo']
+                                        <?= (bool) $product['activo']
                                             ? 'Desactivar'
                                             : 'Activar' ?>
                                     </button>

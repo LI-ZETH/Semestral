@@ -18,17 +18,37 @@
         </p>
     </div>
 
-    <a
-        class="button button--secondary"
-        href="<?= e(
-            base_url(
-                'inventario/categoria?id='
-                . $subcategory['idCategoria']
+    <div class="management-header__actions">
+        <a
+            class="button button--secondary"
+            href="<?= e(
+                base_url(
+                    'inventario/categoria?id='
+                    . $subcategory['idCategoria']
+                )
+            ) ?>"
+        >
+            Volver a subcategorías
+        </a>
+
+        <?php if (
+            \App\Core\Auth::can(
+                \App\Core\Permissions::INVENTARIO_GESTIONAR
             )
-        ) ?>"
-    >
-        Volver a subcategorías
-    </a>
+        ): ?>
+            <a
+                class="button"
+                href="<?= e(
+                    base_url(
+                        'inventario/productos?subcategoria='
+                        . $subcategory['idSubcategoria']
+                    )
+                ) ?>"
+            >
+                Administrar productos
+            </a>
+        <?php endif; ?>
+    </div>
 </section>
 
 <div class="inventory-product-grid">
