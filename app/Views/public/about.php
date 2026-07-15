@@ -52,7 +52,7 @@
             <span class="step-number">03</span>
             <div class="content-card">
                 <img
-                    src="<?= e(asset_url('assets/img/public/joseph-placeholder.svg')) ?>"
+                    src="<?= e(asset_url('assets/img/public/joseph_perfil.jpg')) ?>"
                     alt="Joseph Córdoba"
                 >
                 <h2 class="member-name">Joseph Córdoba</h2>
