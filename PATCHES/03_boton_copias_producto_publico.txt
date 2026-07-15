@@ -1,0 +1,29 @@
+Archivo:
+app/Views/inventario/product.php
+
+En el encabezado del producto, cerca del botón "Volver a productos",
+agrega este botón, visible únicamente para quien pueda gestionar inventario:
+
+<?php if (
+    \App\Core\Auth::can(
+        \App\Core\Permissions::INVENTARIO_GESTIONAR
+    )
+): ?>
+    <a
+        class="button"
+        href="<?= e(
+            base_url(
+                'inventario/activos?producto='
+                . $product['idProducto']
+            )
+        ) ?>"
+    >
+        Administrar copias
+    </a>
+<?php endif; ?>
+
+Conviene colocar ambos botones dentro de:
+
+<div class="management-header__actions">
+    ...
+</div>

@@ -38,17 +38,37 @@
             ) ?>
         </p>
 
-        <a
-            class="button button--secondary"
-            href="<?= e(
-                base_url(
-                    'inventario/categoria?id='
-                    . $product['idCategoria']
+        <div class="management-header__actions">
+            <a
+                class="button button--secondary"
+                href="<?= e(
+                    base_url(
+                        'inventario/subcategoria?id='
+                        . $product['idSubcategoria']
+                    )
+                ) ?>"
+            >
+                Volver a productos
+            </a>
+
+            <?php if (
+                \App\Core\Auth::can(
+                    \App\Core\Permissions::INVENTARIO_GESTIONAR
                 )
-            ) ?>"
-        >
-            Volver a productos
-        </a>
+            ): ?>
+                <a
+                    class="button"
+                    href="<?= e(
+                        base_url(
+                            'inventario/activos?producto='
+                            . $product['idProducto']
+                        )
+                    ) ?>"
+                >
+                    Administrar copias
+                </a>
+            <?php endif; ?>
+        </div>
     </div>
 </section>
 

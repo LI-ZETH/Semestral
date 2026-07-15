@@ -39,3 +39,7 @@ Thumbs.db
 # Imágenes de productos
 /public/uploads/productos/*
 !/public/uploads/productos/.gitkeep
+
+# Imágenes de copias o activos individuales
+/public/uploads/activos/*
+!/public/uploads/activos/.gitkeep

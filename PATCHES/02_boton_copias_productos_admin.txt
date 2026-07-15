@@ -1,0 +1,17 @@
+Archivo:
+app/Views/inventario/products/index.php
+
+Dentro de <div class="table-actions">, antes del botón "Ver copias",
+agrega:
+
+<a
+    class="button button--small"
+    href="<?= e(
+        base_url(
+            'inventario/activos?producto='
+            . $product['idProducto']
+        )
+    ) ?>"
+>
+    Administrar copias
+</a>

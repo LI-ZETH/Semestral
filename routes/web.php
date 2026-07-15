@@ -12,6 +12,7 @@ use App\Controllers\ModuloController;
 use App\Controllers\CategoriaController;
 use App\Controllers\SubcategoriaController;
 use App\Controllers\ProductoController;
+use App\Controllers\ActivoController;
 
 /**
  * @var Router $router
@@ -333,4 +334,52 @@ $router->post(
 $router->post(
     '/inventario/productos/estado',
     [ProductoController::class, 'changeState']
+);
+
+$router->get(
+    '/inventario/activos',
+    [
+        ActivoController::class,
+        'index',
+    ]
+);
+
+$router->get(
+    '/inventario/activos/crear',
+    [
+        ActivoController::class,
+        'create',
+    ]
+);
+
+$router->post(
+    '/inventario/activos/guardar',
+    [
+        ActivoController::class,
+        'store',
+    ]
+);
+
+$router->get(
+    '/inventario/activos/editar',
+    [
+        ActivoController::class,
+        'edit',
+    ]
+);
+
+$router->post(
+    '/inventario/activos/actualizar',
+    [
+        ActivoController::class,
+        'update',
+    ]
+);
+
+$router->post(
+    '/inventario/activos/estado',
+    [
+        ActivoController::class,
+        'changeState',
+    ]
 );

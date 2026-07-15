@@ -1,35 +1,53 @@
-Agregar arriba de routes/web.php:
+En routes/web.php agrega junto a los demás use:
 
-use App\Controllers\ProductoController;
+use App\Controllers\ActivoController;
 
-Agregar al final:
-
-$router->get(
-    '/inventario/productos',
-    [ProductoController::class, 'index']
-);
+Agrega al final del archivo:
 
 $router->get(
-    '/inventario/productos/crear',
-    [ProductoController::class, 'create']
-);
-
-$router->post(
-    '/inventario/productos/guardar',
-    [ProductoController::class, 'store']
+    '/inventario/activos',
+    [
+        ActivoController::class,
+        'index',
+    ]
 );
 
 $router->get(
-    '/inventario/productos/editar',
-    [ProductoController::class, 'edit']
+    '/inventario/activos/crear',
+    [
+        ActivoController::class,
+        'create',
+    ]
 );
 
 $router->post(
-    '/inventario/productos/actualizar',
-    [ProductoController::class, 'update']
+    '/inventario/activos/guardar',
+    [
+        ActivoController::class,
+        'store',
+    ]
+);
+
+$router->get(
+    '/inventario/activos/editar',
+    [
+        ActivoController::class,
+        'edit',
+    ]
 );
 
 $router->post(
-    '/inventario/productos/estado',
-    [ProductoController::class, 'changeState']
+    '/inventario/activos/actualizar',
+    [
+        ActivoController::class,
+        'update',
+    ]
+);
+
+$router->post(
+    '/inventario/activos/estado',
+    [
+        ActivoController::class,
+        'changeState',
+    ]
 );

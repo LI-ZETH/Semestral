@@ -170,6 +170,19 @@
 
                         <td>
                             <div class="table-actions">
+
+                                <a
+                                    class="button button--small"
+                                    href="<?= e(
+                                        base_url(
+                                            'inventario/activos?producto='
+                                            . $product['idProducto']
+                                        )
+                                    ) ?>"
+                                >
+                                    Administrar copias
+                                </a>
+
                                 <a
                                     class="button button--small button--secondary"
                                     href="<?= e(
