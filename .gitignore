@@ -43,3 +43,6 @@ Thumbs.db
 # Imágenes de copias o activos individuales
 /public/uploads/activos/*
 !/public/uploads/activos/.gitkeep
+# Códigos QR generados y almacenados en caché
+/storage/qrcodes/*
+!/storage/qrcodes/.gitkeep

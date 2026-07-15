@@ -1,0 +1,17 @@
+En app/Views/layouts/header.php, dentro de Auth::check(), agrega:
+
+<?php if (
+    Auth::hasRole(\App\Core\Roles::ADMINISTRADOR)
+): ?>
+    <a href="<?= e(base_url('licencias')) ?>">
+        Licencias
+    </a>
+<?php elseif (
+    Auth::hasRole(\App\Core\Roles::COLABORADOR)
+): ?>
+    <a href="<?= e(base_url('mis-licencias')) ?>">
+        Mis licencias
+    </a>
+<?php endif; ?>
+
+Puedes colocarlo después del enlace Mi perfil y antes de Usuarios.

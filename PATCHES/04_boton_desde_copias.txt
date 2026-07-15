@@ -1,0 +1,13 @@
+Opcional para mejorar la navegación:
+
+En app/Views/inventario/assets/index.php, dentro de
+.management-header__actions y antes de Registrar copia, agrega:
+
+<?php if (($product['tipoProducto'] ?? '') === 'LICENCIA'): ?>
+    <a
+        class="button button--secondary"
+        href="<?= e(base_url('licencias')) ?>"
+    >
+        Gestionar licencias
+    </a>
+<?php endif; ?>

@@ -293,7 +293,18 @@
 
                         <td>
                             <div class="table-actions">
-                                
+                                <a
+                                    class="button button--small button--secondary"
+                                    href="<?= e(
+                                        base_url(
+                                            'inventario/activos/ver?id='
+                                            . $asset['idActivo']
+                                        )
+                                    ) ?>"
+                                >
+                                    Ficha
+                                </a>
+
                             <?php if (
                                 (bool) $asset['activo']
                                 && $asset['codigoEstado'] === 'EN_INVENTARIO'

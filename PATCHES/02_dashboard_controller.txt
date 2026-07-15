@@ -1,0 +1,25 @@
+En app/Controllers/DashboardController.php:
+
+A) Dentro de los módulos de Roles::ADMINISTRADOR, después del módulo 05, agrega:
+
+[
+    'number' => '06',
+    'title' => 'Licencias de software',
+    'description' =>
+        'Controlar proveedores, puestos, vencimientos, '
+        . 'renovaciones y asignaciones de software.',
+    'status' => 'Abrir módulo',
+    'url' => base_url('licencias'),
+],
+
+B) Dentro de los módulos de Roles::COLABORADOR, después de Mi información, agrega:
+
+[
+    'number' => '04',
+    'title' => 'Mis licencias',
+    'description' =>
+        'Consultar el software y los puestos de licencia '
+        . 'asignados a tu cuenta.',
+    'status' => 'Abrir módulo',
+    'url' => base_url('mis-licencias'),
+],

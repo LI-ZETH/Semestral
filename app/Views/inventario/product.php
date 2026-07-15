@@ -92,6 +92,7 @@
                         <th>Ubicación</th>
                         <th>Custodio</th>
                         <th>Imágenes</th>
+                        <th>Ficha</th>
                     </tr>
                 </thead>
 
@@ -100,7 +101,7 @@
                         <tr>
                             <td
                                 class="table-empty"
-                                colspan="6"
+                                colspan="7"
                             >
                                 No hay copias registradas.
                             </td>
@@ -145,6 +146,20 @@
                             <td>
                                 <?= e($asset['cantidadImagenes']) ?>
                                 imagen(es)
+                            </td>
+
+                            <td>
+                                <a
+                                    class="button button--small button--secondary"
+                                    href="<?= e(
+                                        base_url(
+                                            'inventario/activos/ver?id='
+                                            . $asset['idActivo']
+                                        )
+                                    ) ?>"
+                                >
+                                    Ver ficha
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

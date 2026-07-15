@@ -19,6 +19,7 @@ use App\Controllers\SolicitudController;
 use App\Controllers\ReparacionController;
 use App\Controllers\PerfilController;
 use App\Controllers\ReporteController;
+use App\Controllers\ActivoDetalleController;
 
 /**
  * @var Router $router
@@ -626,3 +627,27 @@ $router->get(
     ]
 );
 
+
+$router->get(
+    '/inventario/activos/ver',
+    [
+        ActivoDetalleController::class,
+        'show',
+    ]
+);
+
+$router->get(
+    '/activo/ficha',
+    [
+        ActivoDetalleController::class,
+        'publicSheet',
+    ]
+);
+
+$router->get(
+    '/activo/qr',
+    [
+        ActivoDetalleController::class,
+        'qr',
+    ]
+);
